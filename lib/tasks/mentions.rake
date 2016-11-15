@@ -15,6 +15,7 @@ namespace :mentions do
     response = Net::HTTP.get(uri)
 
     data = JSON.parse(response)['data']
+    puts "Processing #{data.length} comments"
 
     data.each do |comment|
       products = ProductExtractor.new(comment['body']).get_products(PRODUCT_TYPES)
