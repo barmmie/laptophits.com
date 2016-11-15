@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  get 'products/index'
+  get 'comments/index'
+
+  resources :products, only: :index do
+    resources :comments, only: :index
+  end
 
   root 'products#index'
 

@@ -1,18 +1,18 @@
 <h1>LaptopHits.com</h1>
-<h2>See what laptops people really recommend these days</h2>
+<h2>See what laptops people recommend these days</h2>
 
 <p>Total laptop mentions: <%= @mentions.count %></p>
 <p>
 Last mention: <%= link_to @last_mention.product.title, @last_mention.product.offer_url %><br/>
-Subreddit: <%= link_to @last_mention.comment.subreddit, "https://www.reddit.com/r/#{@last_mention.comment.subreddit}" %><br/>
+Subreddit: <%= link_to "/r/#{@last_mention.comment.subreddit}", "https://www.reddit.com/r/#{@last_mention.comment.subreddit}" %><br/>
 Submission: <%= link_to @last_mention.comment.link_title, "https://www.reddit.com#{@last_mention.comment.link_permalink}" %><br/>
 Comment: <%= link_to "https://www.reddit.com#{@last_mention.comment.link_permalink}#{@last_mention.comment.comment_id}", "https://www.reddit.com#{@last_mention.comment.link_permalink}#{@last_mention.comment.comment_id}"%>
 </p>
 
 <h3>Recommended laptops</h3>
-<ul>
+<ol>
 <% @products.each do |product| %>
-  <li><%= product.product_count %>, <%= link_to product.title, product.offer_url %></li>
+  <li><%= link_to product.title, product.offer_url %> - [<%= link_to "#{product.product_count} mentions", product_comments_path(product) %>]</li>
 <% end %>
-</ul>
+</ol>
 

@@ -1,0 +1,10 @@
+<h1><%= link_to "LaptopHits.com", root_path %></h1>
+<h2><%= link_to @product.title, @product.offer_url %></h2>
+<h3>Comments:</h3>
+<ul>
+  <% @comments.each do |comment| %>
+    <li>
+      <%= link_to "/r/#{comment.subreddit}", "https://www.reddit.com/r/#{comment.subreddit}" %> - <%= link_to comment.link_title, "https://www.reddit.com#{comment.link_permalink}#{comment.comment_id}" %> - [<%= comment.created_utc %>]
+    </li>
+  <% end %>
+</ul>
