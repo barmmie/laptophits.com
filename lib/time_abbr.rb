@@ -3,6 +3,7 @@ class TimeAbbr
     'min' => 1.minute,
     'h' => 1.hour,
     'd' => 1.day,
+    'w' => 1.week,
     'm' => 1.month,
     'y' => 1.year
   }
