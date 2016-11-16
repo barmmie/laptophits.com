@@ -4,7 +4,7 @@
 <ul>
   <% @comments.each do |comment| %>
     <li>
-      <%= link_to "/r/#{comment.subreddit}", "https://www.reddit.com/r/#{comment.subreddit}" %> - <%= link_to comment.link_title, "https://www.reddit.com#{comment.link_permalink}#{comment.comment_id}" %> - [<%= comment.created_utc %>]
+      <%= link_to "/r/#{comment.subreddit}", "https://www.reddit.com/r/#{comment.subreddit}" %> - <%= link_to comment.link_title, "https://www.reddit.com#{comment.link_permalink}#{comment.comment_id}" %> - [<%= distance_of_time_in_words(Time.now,comment.created_utc) %> ago]
     </li>
   <% end %>
 </ul>
