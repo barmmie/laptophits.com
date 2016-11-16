@@ -13,7 +13,7 @@ Comment: <%= link_to "https://www.reddit.com#{@last_mention.comment.link_permali
 <%= link_to_unless params[:after].nil?, "All time", products_path %>, <%= link_to_unless params[:after] == "1w", "Past week", products_path(after: "1w") %>, <%= link_to_unless params[:after] == "1m", "Past month", products_path(after: "1m") %>, <%= link_to_unless params[:after] == "1y", "Past year", products_path(after: "1y") %>
 <ol>
 <% @products.each do |product| %>
-  <li><%= link_to product.title, product.offer_url %> - [<%= link_to "#{product.product_count} mentions", product_comments_path(product) %>]</li>
+  <li><%= link_to product.title, product.offer_url %> - [<%= link_to "#{product.product_count} mentions", product_comments_path(product, after: params[:after]) %>]</li>
 <% end %>
 </ol>
 
