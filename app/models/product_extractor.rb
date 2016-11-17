@@ -15,6 +15,8 @@ class ProductExtractor
         price = item.get_element('Price') || item.get_element('LowestNewPrice')
         price = price.get('Amount') if price
 
+        binding.pry
+
         json = {asin: item.get_element('Item').get('ASIN'),
                 title: item.get_element('ItemAttributes').get('Title'),
                 manufacturer: item.get_element('ItemAttributes').get('Manufacturer'),
