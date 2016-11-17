@@ -9,5 +9,7 @@ class ProductsController < ApplicationController
       @products = @products.where('comments.created_utc > ?',time_after)
       @mentions = @mentions.joins(:comment).where('comments.created_utc > ?', time_after)
     end
+
+    @products = @products.paginate(page: params[:page], per_page: 10)
   end
 end
