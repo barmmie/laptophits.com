@@ -10,10 +10,26 @@ Comment: <%= link_to "https://www.reddit.com#{@last_mention.comment.link_permali
 </p>
 
 <h3>Recommended laptops</h3>
-<%= link_to_unless params[:after].nil?, "All time", products_path %>, <%= link_to_unless params[:after] == "1w", "Past week", products_path(after: "1w") %>, <%= link_to_unless params[:after] == "1m", "Past month", products_path(after: "1m") %>, <%= link_to_unless params[:after] == "1y", "Past year", products_path(after: "1y") %>
+<ul class="list-inline">
+  <li>Time: </li>
+  <li><%= link_to_unless params[:after].nil?, "All time", products_path(price_from: params[:price_from], price_to: params[:price_to]) %> |</li>
+  <li><%= link_to_unless params[:after] == "1w", "Past week", products_path(after: "1w",price_from: params[:price_from], price_to: params[:price_to]) %> |</li>
+  <li><%= link_to_unless params[:after] == "1m", "Past month", products_path(after: "1m",price_from: params[:price_from], price_to: params[:price_to]) %> |</li>
+  <li><%= link_to_unless params[:after] == "1y", "Past year", products_path(after: "1y",price_from: params[:price_from], price_to: params[:price_to]) %></li>
+</ul>
+<ul class="list-inline">
+  <li>Prices: </li>
+  <li><%= link_to_unless params[:price_from].nil? && params[:price_to].nil?, "All prices", products_path(after: params[:after]) %> |</li>
+  <li><%= link_to_unless params[:price_to].to_i == 400, "$0 - $400", products_path(price_to: 400,after: params[:after]) %> |</li>
+  <li><%= link_to_unless params[:price_from].to_i == 400 && params[:price_to].to_i == 600, "$400 - $600", products_path(price_from: 400, price_to: 600,after: params[:after]) %> |</li>
+  <li><%= link_to_unless params[:price_from].to_i == 600 && params[:price_to].to_i == 800, "$600 - $800", products_path(price_from: 600, price_to: 800, after: params[:after]) %> |</li>
+  <li><%= link_to_unless params[:price_from].to_i == 800 && params[:price_to].to_i == 1000, "$800 - $1000", products_path(price_from: 800, price_to: 1000, after: params[:after]) %> |</li>
+  <li><%= link_to_unless params[:price_from].to_i == 1000 && params[:price_to].to_i == 1500, "$1000 - $1500", products_path(price_from: 1000, price_to: 1500, after: params[:after]) %> |</li>
+  <li><%= link_to_unless params[:price_from].to_i == 1500 && params[:price_to].nil?, "$1500+", products_path(price_from: 1500, after: params[:after]) %></li>
+</ul>
 <ol start="<%= (params[:page].to_i <= 1 ? 0 : params[:page].to_i - 1)*10 + 1%>">
 <% @products.each do |product| %>
-  <li><%= link_to product.title, product.offer_url %> - [<%= link_to "#{product.product_count} mentions", product_comments_path(product, after: params[:after]) %>]</li>
+  <li><%= link_to product.title, product.offer_url %> - $<%= "%.2f" % (product.price_in_cents/100.to_f) %> - [<%= link_to "#{product.product_count} mentions", product_comments_path(product, after: params[:after]) %>]</li>
 <% end %>
 
 <%= will_paginate @products %>
