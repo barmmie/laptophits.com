@@ -1,13 +1,7 @@
 <h1>LaptopHits.com</h1>
 <h2>See what laptops people recommend these days. </h2>
 
-<p>Total laptop mentions: <%= @mentions.count %></p>
-<p>
-Last mention: <%= link_to @last_mention.product.title, @last_mention.product.offer_url %><br/>
-Subreddit: <%= link_to "/r/#{@last_mention.comment.subreddit}", "https://www.reddit.com/r/#{@last_mention.comment.subreddit}" %><br/>
-Submission: <%= link_to @last_mention.comment.link_title, "https://www.reddit.com#{@last_mention.comment.link_permalink}" %><br/>
-Comment: <%= link_to "https://www.reddit.com#{@last_mention.comment.link_permalink}#{@last_mention.comment.comment_id}", "https://www.reddit.com#{@last_mention.comment.link_permalink}#{@last_mention.comment.comment_id}"%>
-</p>
+<p>Based on <%= @mentions.count %> laptop mentions on Reddit</p>
 
 <h3>Recommended laptops</h3>
 <ul class="list-inline">
@@ -28,10 +22,7 @@ Comment: <%= link_to "https://www.reddit.com#{@last_mention.comment.link_permali
   <li><%= link_to_unless params[:price_from].to_i == 1500 && params[:price_to].nil?, "$1500+", products_path(price_from: 1500, after: params[:after]) %></li>
 </ul>
 <ol start="<%= (params[:page].to_i <= 1 ? 0 : params[:page].to_i - 1)*10 + 1%>">
-<% @products.each do |product| %>
-  <li><%= product_row(product) %></li>
-<% end %>
-
-<%= will_paginate @products %>
+<%= render partial: "product", collection: @products %>
 </ol>
+<%= will_paginate @products %>
 

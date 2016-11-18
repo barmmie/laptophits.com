@@ -14,7 +14,35 @@
  *= require_self
  */
 
+body {
+  font-family: "Helvetica", "Arial", sans-serif;
+
+  line-height: 1.5;
+  padding: 1em;
+
+  color: #555;
+}
+
+h1, h2, h3, h4, strong {
+  color: #333;
+}
+
+.list-inline {
+  padding-left: 0px;
+  margin: 0;
+}
+
 .list-inline li {
   display: inline;
   list-style-type: none;
+
+}
+
+.item {
+  margin-bottom: 0px;
+}
+
+.item-info {
+  margin-top: 0px;
+  font-size: 0.8em;
 }
