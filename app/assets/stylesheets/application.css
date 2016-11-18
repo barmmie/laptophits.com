@@ -15,16 +15,18 @@
  */
 
 body {
-  font-family: "Helvetica", "Arial", sans-serif;
+  font-family: "Helvetica", sans-serif;
 
   line-height: 1.5;
   padding: 1em;
-
-  color: #555;
 }
 
-h1, h2, h3, h4, strong {
-  color: #333;
+.tagline p {
+  margin-top:0;
+}
+
+.tagline h2 {
+  margin-bottom:0;
 }
 
 .list-inline {
@@ -39,10 +41,10 @@ h1, h2, h3, h4, strong {
 }
 
 .item {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .item-info {
-  margin-top: 0px;
+  margin-top: 0;
   font-size: 0.8em;
 }
