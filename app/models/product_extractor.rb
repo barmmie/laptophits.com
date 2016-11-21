@@ -18,6 +18,7 @@ class ProductExtractor
         json = {asin: item.get_element('Item').get('ASIN'),
                 title: item.get_element('ItemAttributes').get('Title'),
                 manufacturer: item.get_element('ItemAttributes').get('Manufacturer'),
+                brand: item.get_element('ItemAttributes').get('Brand'),
                 model: item.get_element('ItemAttributes').get('Model'),
                 price: price,
                 product_type: item.get_element('ItemAttributes').get('ProductTypeName')}
