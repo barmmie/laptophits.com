@@ -1,4 +1,7 @@
 <li>
   <p class="item"><%= link_to product.title, product.offer_url %></p>
-  <p class="item-info">Price: <%= product.price_in_cents.nil? ? "N/A" : "$#{product.price_in_cents/100.to_f}" %>, <%= link_to("#{product.product_count} mentions", product_comments_path(product, after: params[:after])) %></p>
+  <p class="item-info">
+    Price: <%= product.price_in_cents.nil? ? "N/A" : "$#{product.price_in_cents/100.to_f}" %>, 
+    <%= link_to("#{product.product_count} mentions", product_comments_path(product, after: params[:after])) %>
+  </p>
 </li>

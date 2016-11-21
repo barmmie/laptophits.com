@@ -8,7 +8,18 @@
 </head>
 <body>
 <%= render :partial => 'layouts/google_analytics' %>
-<%= yield %>
+
+<div class="header">
+  <%= yield :header %>
+</div>
+
+<div class="sidebar">
+  <%= yield :sidebar %>
+</div>
+
+<div class="content">
+  <%= yield %>
+</div>
 
 </body>
 </html>
