@@ -5,6 +5,7 @@ namespace :products do
       item = ProductExtractor.new(product.offer_url).get_products.first
       product.brand = item[:brand]
       product.save
+      puts item[:brand]
     end
   end
 end
