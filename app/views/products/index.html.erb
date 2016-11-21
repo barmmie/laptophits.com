@@ -7,28 +7,39 @@
 <% end %>
 
 <% content_for :sidebar do %>
+<%= link_to "Clear all filters", products_path %>
 <h4>Time: </h4>
 <ul>
-  <li><%= link_to_unless params[:after].nil?, "All time", products_path(price_from: params[:price_from], price_to: params[:price_to]) %></li>
-  <li><%= link_to_unless params[:after] == "1w", "Past week", products_path(after: "1w",price_from: params[:price_from], price_to: params[:price_to]) %></li>
-  <li><%= link_to_unless params[:after] == "1m", "Past month", products_path(after: "1m",price_from: params[:price_from], price_to: params[:price_to]) %></li>
-  <li><%= link_to_unless params[:after] == "1y", "Past year", products_path(after: "1y",price_from: params[:price_from], price_to: params[:price_to]) %></li>
+  <li><%= link_to_unless params[:after].nil?, "All time", products_path(params.except(:controller, :action).merge({after: nil})) %></li>
+  <li><%= link_to_unless params[:after] == "1w", "Past week", products_path(params.except(:controller, :action).merge({after: "1w"})) %></li>
+  <li><%= link_to_unless params[:after] == "1m", "Past month", products_path(params.except(:controller, :action).merge({after: "1m"})) %></li>
+  <li><%= link_to_unless params[:after] == "1y", "Past year", products_path(params.except(:controller, :action).merge({after: "1y"})) %></li>
 </ul>
 <h4>Prices: </h4>
 <ul>
-  <li><%= link_to_unless params[:price_from].nil? && params[:price_to].nil?, "All prices", products_path(after: params[:after]) %></li>
-  <li><%= link_to_unless params[:price_to].to_i == 400, "$0 - $400", products_path(price_to: 400,after: params[:after]) %></li>
-  <li><%= link_to_unless params[:price_from].to_i == 400 && params[:price_to].to_i == 600, "$400 - $600", products_path(price_from: 400, price_to: 600,after: params[:after]) %></li>
-  <li><%= link_to_unless params[:price_from].to_i == 600 && params[:price_to].to_i == 800, "$600 - $800", products_path(price_from: 600, price_to: 800, after: params[:after]) %></li>
-  <li><%= link_to_unless params[:price_from].to_i == 800 && params[:price_to].to_i == 1000, "$800 - $1000", products_path(price_from: 800, price_to: 1000, after: params[:after]) %></li>
-  <li><%= link_to_unless params[:price_from].to_i == 1000 && params[:price_to].to_i == 1500, "$1000 - $1500", products_path(price_from: 1000, price_to: 1500, after: params[:after]) %></li>
-  <li><%= link_to_unless params[:price_from].to_i == 1500 && params[:price_to].nil?, "$1500+", products_path(price_from: 1500, after: params[:after]) %></li>
+  <li><%= link_to_unless params[:price_from].nil? && params[:price_to].nil?, "All prices", products_path(params.except(:controller, :action).merge({price_from: nil, price_to: nil})) %></li>
+  <li><%= link_to_unless params[:price_to].to_i == 400, "$0 - $400", products_path(params.except(:controller, :action).merge({price_from: 0, price_to: 400})) %></li>
+  <li><%= link_to_unless params[:price_from].to_i == 400 && params[:price_to].to_i == 600, "$400 - $600", products_path(params.except(:controller, :action).merge({price_from: 600, price_to: 600})) %></li>
+  <li><%= link_to_unless params[:price_from].to_i == 600 && params[:price_to].to_i == 800, "$600 - $800", products_path(params.except(:controller, :action).merge({price_from: 600, price_to: 800})) %></li>
+  <li><%= link_to_unless params[:price_from].to_i == 800 && params[:price_to].to_i == 1000, "$800 - $1000", products_path(params.except(:controller, :action).merge({price_from: 800, price_to: 1000})) %></li>
+  <li><%= link_to_unless params[:price_from].to_i == 1000 && params[:price_to].to_i == 1500, "$1000 - $1500", products_path(params.except(:controller, :action).merge({price_from: 1000, price_to: 1500})) %></li>
+  <li><%= link_to_unless params[:price_from].to_i == 1500 && params[:price_to].nil?, "$1500+", products_path(params.except(:controller, :action).merge({price_from: 1500, price_to: nil})) %></li>
+</ul>
+<h4>Brands: </h4>
+<ul>
+  <li><%= link_to_unless params[:brand].nil?, "All brands", products_path(params.except(:controller, :action).merge({brand: nil})) %></li>
+  <% @brands.each do |brand, count| %>
+    <li><%= link_to_unless params[:brand] == brand, "#{brand} (#{count})", products_path(params.except(:controller, :action).merge({brand: brand})) %></li>
+  <% end %>
 </ul>
 <% end %>
 
 <h3>Recommended laptops</h3>
-<ol start="<%= (params[:page].to_i <= 1 ? 0 : params[:page].to_i - 1)*10 + 1%>">
-<%= render partial: "product", collection: @products %>
-</ol>
-<%= will_paginate @products %>
-
+<% if @products.length == 0 %>
+  <em>Sorry, there are no results matching your search criteria.</em>
+<% else %>
+  <ol start="<%= (params[:page].to_i <= 1 ? 0 : params[:page].to_i - 1)*10 + 1%>">
+    <%= render partial: "product", collection: @products %>
+  </ol>
+  <%= will_paginate @products %>
+<% end %>
