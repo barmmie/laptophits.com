@@ -4,8 +4,10 @@ namespace :products do
     Product.all.each do |product|
       item = ProductExtractor.new(product.offer_url).get_products.first
       product.brand = item[:brand]
-      product.save
-      puts item[:brand]
+      if product.brand != item[:brand]
+        puts "#{product.brand} => #{item[:brand]}"
+        product.save
+      end
     end
   end
 end
