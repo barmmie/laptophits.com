@@ -19,6 +19,7 @@ class ProductsController < ApplicationController
     end
 
     @brands = @brands.merge(@products.map(&:brand).group_by(&:itself).map{|k,v| [k,v.length]}.to_h).sort.to_h
+    @brands['Other'] = @brands.delete 'Other' if @brands['Other']
     
     if params[:brand]
       @products = @products.where('brand = ?', params[:brand])
