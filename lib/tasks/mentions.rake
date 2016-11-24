@@ -30,6 +30,7 @@ namespace :mentions do
             p.offer_url = "https://www.amazon.com/dp/#{product[:asin]}/?tag=#{ENV['AMAZON_ASSOC_TAG']}"
             p.price_in_cents = product[:price].to_i if product[:price]
             p.brand = product[:brand]
+            p.display_size = product[:display_size]
           end
         end
       end 
