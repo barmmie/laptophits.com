@@ -6,7 +6,7 @@ class SpecificationExtractor
   end
 
   def display_size
-    if match = text.match(/\b(\d{2}\.\d)\b|\b(\d{2})"|\b(\d{2})-Inch|\D(\d{2}\.\d)"/)
+    if match = text.match(/\b(\d{2}\.\d)\b|\b(\d{2})"|\b(\d{2})[ -]Inch|\D(\d{2}\.\d)"/i)
       match.captures.reject(&:nil?).first
     end
   end
