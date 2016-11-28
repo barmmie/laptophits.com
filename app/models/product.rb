@@ -2,7 +2,7 @@ class Product < ActiveRecord::Base
   ATTRIBUTES = [:brand, :price, :display_size]
   ATTR_PARAMS = {brand: [:brand], price: [:price_from, :price_to], display_size: [:display_size_from, :display_size_to]}
 
-  has_many :mentions
+  has_many :mentions, dependent: :destroy
   has_many :comments, through: :mentions
 
   def self.filter_by(filter_params)
