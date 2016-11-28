@@ -62,7 +62,7 @@ class Product < ActiveRecord::Base
 
   def self.brand_distribution
     brands_distribution = all.map(&:brand).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
-    brands_distribution['Other'] = brands_distribution.delete(nil) if brands_distribution[nil]
+    brands_distribution['Other'] = brands_distribution.delete('Other') if brands_distribution['Other']
     brands_distribution
   end
 
