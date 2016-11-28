@@ -4,7 +4,7 @@ module ProductsHelper
       "<li>" + 
         link_to_unless(params[:brand] == brand,
         "#{brand} (#{count})",
-        products_path(params.except(:controller, :action).merge({brand: brand}))) +
+        products_path(params.except(:controller, :action, :page).merge({brand: brand}))) +
       "</li>"
     end.join
 
@@ -17,7 +17,7 @@ module ProductsHelper
         link_to_unless(
           params[:display_size_from].to_i == display_size && params[:display_size_to].to_i == display_size + 1,
           "#{display_size}\" - #{display_size}.9\" (#{count})",
-          products_path(params.except(:controller, :action).merge({display_size_from: display_size, display_size_to: display_size + 1}))) +
+          products_path(params.except(:controller, :action, :page).merge({display_size_from: display_size, display_size_to: display_size + 1}))) +
       "</li>"
     end.join
 
