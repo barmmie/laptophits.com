@@ -7,6 +7,12 @@ module ProductsHelper
         products_path(params.except(:controller, :action, :page).merge({brand: brand}))) +
       "</li>"
     end.join
+    
+    list = "<li>" + 
+      link_to_unless(params[:brand].nil?,
+      "All brands",
+      products_path(params.except(:controller, :action, :page).merge(brand: nil))) + 
+      "</li>" + list
 
     "<ul>#{list}</ul>".html_safe
   end
@@ -20,6 +26,12 @@ module ProductsHelper
           products_path(params.except(:controller, :action, :page).merge({display_size_from: display_size, display_size_to: display_size + 1}))) +
       "</li>"
     end.join
+
+    list = "<li>" + 
+      link_to_unless(params[:display_size_from].nil? && params[:display_size_to].nil?,
+                     "All display sizes",
+                     products_path(params.except(:controller, :action, :page).merge(display_size_from: nil, display_size_to: nil))) + 
+      "</li>" + list
 
     "<ul>#{list}</ul>".html_safe
   end
