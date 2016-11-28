@@ -31,7 +31,7 @@ class Product < ActiveRecord::Base
   end
 
   def self.brand(brand_name)
-    where(brand: brand_name == 'Other' ? nil : brand_name)
+    where(brand: brand_name)
   end
 
   def self.display_size_from(display_size)
