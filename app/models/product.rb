@@ -5,6 +5,10 @@ class Product < ActiveRecord::Base
   has_many :mentions, dependent: :destroy
   has_many :comments, through: :mentions
 
+  def to_param
+    "#{id} #{title}".parameterize
+  end
+
   def self.filter_by(filter_params)
     results = joins(:comments).
       select('products.*, count(mentions.product_id) as "mentions_count"').
