@@ -70,3 +70,23 @@ body {
 .content {
   overflow: hidden;
 }
+
+.content ol {
+  padding-left: 1.5em;
+}
+
+.mobile-filter {
+  display: none;
+}
+/* mobile styles */
+
+@media only screen and (max-width : 600px) {
+  .sidebar {
+    display: none;
+    font-size: 1em;
+  }
+
+  .mobile-filter {
+    display: inline;
+  }
+}

@@ -35,8 +35,10 @@
 
 <h3>Recommended laptops</h3>
 <% if @products.length == 0 %>
-  <em>Sorry, there are no results matching your search criteria.</em>
+  <em>Sorry, there are no results matching your criteria.</em>
 <% else %>
+  <%= link_to "Filters", "#", class: 'mobile-filter' %>
+
   <ol start="<%= (params[:page].to_i <= 1 ? 0 : params[:page].to_i - 1)*10 + 1%>">
     <%= render partial: "product", collection: @products %>
   </ol>
