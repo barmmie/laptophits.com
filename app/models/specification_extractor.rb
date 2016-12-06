@@ -10,4 +10,22 @@ class SpecificationExtractor
       match.captures.reject(&:nil?).first
     end
   end
+
+  def ram
+    ram_patterns = [
+     /(\d+) ?GB (?:LP)?DDR/i,
+     /(\d+) ?GB RAM/i,
+     /(\d+) ?GB ?Memory/i,
+     /(\d+) ?G?GB? ?,? ?\d+ ?(?:GB?|TB?)/i,
+     /(\d+ ?G2) RAM/i,
+     /hz (\d+) ?GB/i,
+     /(\d+) ?GB ?- ?\d+ ?GB/i
+    ]
+
+    re = Regexp.union(ram_patterns)
+
+    if match = text.match(re)
+      match.captures.reject(&:nil?).first
+    end
+  end
 end

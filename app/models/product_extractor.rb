@@ -22,7 +22,8 @@ class ProductExtractor
                 model: item.get_element('ItemAttributes').get('Model'),
                 price: price,
                 product_type: item.get_element('ItemAttributes').get('ProductTypeName'),
-                display_size: SpecificationExtractor.new(item.get_element('ItemAttributes').get('Title')).display_size}
+                display_size: SpecificationExtractor.new(item.get_element('ItemAttributes').get('Title')).display_size,
+                features: item.get_element('ItemAttributes').get_array('Feature')}
 
         json if product_types.nil? || product_types.include?(json[:product_type])
       rescue Amazon::RequestError => err

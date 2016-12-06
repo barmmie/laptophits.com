@@ -33,4 +33,24 @@ namespace :products do
       end
     end
   end
+
+  desc "Update ram info"
+  task update_ram: :environment do 
+    Product.all.each do |product|
+      ram = SpecificationExtractor.new(product.title).ram
+      puts "#{ram}, #{product.title}" if ram
+    end
+
+    puts Product.select{|p| SpecificationExtractor.new(p.title).ram}.count
+  end
+
+  desc "Update features info"
+  task update_features: :environment do
+    Product.all.each do |product|
+      product.features = ProductExtractor.new(product.offer_url).get_products.first[:features]
+      product.save
+      puts product.title
+      puts product.features
+    end
+  end
 end
