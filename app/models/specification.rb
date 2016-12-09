@@ -12,7 +12,7 @@ class Specification
   end
 
   def extract_brand
-    extracted_brands = BrandExtractor.new(data_sources[:amazon_api_data]['brand'].to_s + data_sources[:amazon_api_data]['title']).brands
+    extracted_brands = BrandExtractor.new([data_sources[:amazon_api_data]['brand'].to_s, data_sources[:amazon_api_data]['title']].join(' ')).brands
     extracted_brands.group_by(&:itself).map{|e| [e.first, e.second.length]}.sort_by{|k,v| v}.reverse.to_h.keys.first
   end
 
