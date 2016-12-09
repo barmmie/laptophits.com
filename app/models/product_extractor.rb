@@ -18,11 +18,10 @@ class ProductExtractor
         json = {asin: item.get_element('Item').get('ASIN'),
                 title: item.get_element('ItemAttributes').get('Title'),
                 manufacturer: item.get_element('ItemAttributes').get('Manufacturer'),
-                brand: BrandExtractor.new(item.get_element('ItemAttributes').get('Title')).get_brand(item.get_element('ItemAttributes').get('Brand')),
+                brand: item.get_element('ItemAttributes').get('Brand'),
                 model: item.get_element('ItemAttributes').get('Model'),
                 price: price,
                 product_type: item.get_element('ItemAttributes').get('ProductTypeName'),
-                display_size: SpecificationExtractor.new(item.get_element('ItemAttributes').get('Title')).display_size,
                 features: item.get_element('ItemAttributes').get_array('Feature')}
 
         json if product_types.nil? || product_types.include?(json[:product_type])

@@ -11,17 +11,6 @@ namespace :products do
     end
   end
 
-  desc "Show model info."
-  task update_attributes: :environment do
-    Product.all.each do |product|
-      product.display_size = SpecificationExtractor.new(product.title).display_size
-      product.save
-      puts product.title
-      puts "Display: #{product.display_size}"
-      puts
-    end
-  end
-
   desc "Update product prices"
   task update_prices: :environment do
     Product.all.each do |product| 
@@ -34,23 +23,13 @@ namespace :products do
     end
   end
 
-  desc "Update ram info"
-  task update_ram: :environment do 
+  desc "Update amazon api data"
+  task update_amazon_api_data: :environment do
     Product.all.each do |product|
-      ram = SpecificationExtractor.new(product.title).ram
-      puts "#{ram}, #{product.title}" if ram
-    end
-
-    puts Product.select{|p| SpecificationExtractor.new(p.title).ram}.count
-  end
-
-  desc "Update features info"
-  task update_features: :environment do
-    Product.all.each do |product|
-      product.features = ProductExtractor.new(product.offer_url).get_products.first[:features]
+      product.amazon_api_data = ProductExtractor.new(product.offer_url).get_products.first
       product.save
-      puts product.title
-      puts product.features
+
+      puts product.amazon_api_data['title']
     end
   end
 end

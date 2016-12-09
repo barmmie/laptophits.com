@@ -8,31 +8,14 @@ class BrandExtractor
   def initialize(text)
     self.text = text
 
-    @unaliased_text = text
+    @unaliased_text = text.to_s
     BRAND_ALIASES.each do |brand, aliases|
       aliases.each{|brand_alias| @unaliased_text.gsub!(/\b#{brand_alias}\b/i, brand)}
     end
   end
 
-  def get_brand(suggested_brand)
-    brands = extract_brands
-    default_brand = self.class.show_brand(suggested_brand)
-
-    brand = "Other" if brands.length == 0 && !default_brand
-    brand = default_brand if brands.length == 0 && default_brand
-    brand = brands.first if brands.length == 1
-    brand = default_brand if brands.length > 1 && default_brand
-    brand = brands.first if brands.length > 1 && !default_brand
-
-    brand
-  end
-
-  def extract_brands
+  def brands
     LAPTOP_BRANDS.select{|brand| unaliased_text =~ /\b#{brand}\b/i}
-  end
-
-  def self.show_brand(name)
-    LAPTOP_BRANDS.select{|brand| name =~ /#{brand}/i}.first || unalias(name)
   end
 
   def self.unalias(name)
