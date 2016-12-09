@@ -31,7 +31,6 @@ namespace :mentions do
             p.price_in_cents = product[:price].to_i if product[:price]
             p.brand = product[:brand]
             p.display_size = product[:display_size]
-            p.features = product[:features]
 
             p.amazon_api_data = product
           end
