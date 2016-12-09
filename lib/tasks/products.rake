@@ -32,4 +32,11 @@ namespace :products do
       puts product.amazon_api_data['title']
     end
   end
+
+  desc "Update specification"
+  task update_spec: :environment do
+    Product.all.each do |product| 
+      product.update_spec
+    end
+  end
 end
