@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161206160915) do
+ActiveRecord::Schema.define(version: 20161209144747) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,12 +56,23 @@ ActiveRecord::Schema.define(version: 20161206160915) do
     t.string   "offer_url"
     t.integer  "price_in_cents"
     t.string   "asin"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
     t.string   "brand"
     t.string   "display_size"
     t.text     "features"
+    t.jsonb    "amazon_api_data"
   end
+
+  create_table "specifications", force: :cascade do |t|
+    t.string   "brand"
+    t.float    "display_size"
+    t.integer  "product_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "specifications", ["product_id"], name: "index_specifications_on_product_id", using: :btree
 
   add_foreign_key "mentions", "comments"
   add_foreign_key "mentions", "products"

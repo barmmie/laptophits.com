@@ -32,6 +32,8 @@ namespace :mentions do
             p.brand = product[:brand]
             p.display_size = product[:display_size]
             p.features = product[:features]
+
+            p.amazon_api_data = product
           end
         end
       end 
