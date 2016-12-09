@@ -1,5 +1,5 @@
 class BrandExtractor
-  LAPTOP_BRANDS = [ 'Acer', 'Alienware', 'Aorus', 'Apple', 'Asus', 'Computer Upgrade King', 'Dell', 'Eluktronics', 'Gigabyte', 'HP', 'LG', 'Lenovo', 'MSI', 'Razer', 'Toshiba']
+  LAPTOP_BRANDS = [ 'Acer', 'Alienware', 'Aorus', 'Apple', 'Asus', 'Clevo', 'Computer Upgrade King', 'Dell', 'Eluktronics', 'Gigabyte', 'HP', 'Lenovo', 'Microsoft', 'MSI', 'Razer', 'Samsung', 'Toshiba']
   BRAND_ALIASES = {'Computer Upgrade King' => ['CUK']}
 
   attr_accessor :text
