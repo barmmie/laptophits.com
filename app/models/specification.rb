@@ -8,7 +8,8 @@ class Specification
   def extract
     {brand: extract_brand,
      display_size: extract_display_size,
-     ram: extract_ram}
+     ram: extract_ram,
+     display_resolution: extract_display_resolution}
   end
 
   def extract_brand

@@ -1,9 +1,10 @@
 class Product < ActiveRecord::Base
-  ATTRIBUTES = [:brand, :price, :display_size, :ram]
+  ATTRIBUTES = [:brand, :price, :display_size, :ram, :display_resolution]
   ATTR_PARAMS = {brand: [:brand],
                  price: [:price_from, :price_to],
                  display_size: [:display_size_from, :display_size_to],
-                 ram: [:ram]}
+                 ram: [:ram],
+                 display_resolution: [:display_resolution] }
 
   has_many :mentions, dependent: :destroy
   has_many :comments, through: :mentions
@@ -49,6 +50,10 @@ class Product < ActiveRecord::Base
     where(ram: ram_size)
   end
 
+  def self.display_resolution(display_resolution)
+    where(display_resolution: display_resolutions)
+  end
+
   def self.display_size_from(display_size)
     where('display_size >= ?', display_size)
   end
@@ -83,6 +88,10 @@ class Product < ActiveRecord::Base
 
   def self.ram_distribution
     rams_distribution = all.map(&:ram).group_by(&:itself).except(nil).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
+  end
+
+  def self.display_resolution_distribution
+    display_resolutions_distribution = all.map(&:display_resolution).group_by(&:itself).except(nil).map{|k,v| [k,v.length]}.sort{|x,y| y <=> x || 1}.to_h
   end
 
   def self.price_in_cents_distribution

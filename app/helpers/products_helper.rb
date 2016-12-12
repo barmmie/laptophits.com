@@ -55,4 +55,24 @@ module ProductsHelper
 
     "<ul>#{list}</ul>".html_safe
   end
+
+  def display_resolution_filter(display_resolutions, params)
+    list = display_resolutions.map do |display_resolution, count|
+      "<li>" + 
+        link_to_unless(
+          params[:display_resolution] == display_resolution,
+          "#{display_resolution} (#{count})",
+          products_path(params.except(:controller, :action, :page).merge(display_resolution: display_resolution))) +
+      "</li>"
+    end.join
+
+    list = "<li>" + 
+      link_to_unless(
+        params[:display_resolution].nil?,
+        "All resolutions",
+        products_path(params.except(:controller, :action, :page).merge(display_resolution: nil))) +
+      "</li>" + list
+
+    "<ul>#{list}</ul>".html_safe
+  end
 end
