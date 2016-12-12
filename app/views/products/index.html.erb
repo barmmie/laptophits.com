@@ -34,8 +34,12 @@
 <%= brand_filter(@brands, params) %>
 
 <h4>Display sizes: </h4>
-  <%= display_size_filter(@display_sizes, params) %>
+<%= display_size_filter(@display_sizes, params) %>
+
+<h4>Ram: </h4>
+<%= ram_filter(@rams, params) %>
 <% end %>
+
 
 <h3>Recommended laptops</h3>
 <% if @products.length == 0 %>
