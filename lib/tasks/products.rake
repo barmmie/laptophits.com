@@ -33,6 +33,16 @@ namespace :products do
     end
   end
 
+  desc "Update amazon www data"
+  task update_amazon_www_data: :environment do
+    Product.all.each do |product|
+      product.amazon_www_data = AmazonScraper.new(product.offer_url).technical_details
+      product.save
+
+      puts product.amazon_api_data['title']
+    end
+  end
+
   desc "Update specification"
   task update_spec: :environment do
     Product.all.each do |product| 
