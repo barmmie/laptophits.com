@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
     @mentions_count = Mention.count
 
     @products = ProductFilter.new.filter_by(filter_params)
-    attr_distr = Product.filter_attr_distribution(filter_params)
+    attr_distr = AttributesDistribution.new(@products, filter_params).calculate
 
     @brands = attr_distr[:brand]
     @prices = attr_distr[:price]
