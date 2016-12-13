@@ -51,7 +51,7 @@ class Product < ActiveRecord::Base
   end
 
   def self.display_resolution(display_resolution)
-    where(display_resolution: display_resolutions)
+    where(display_resolution: display_resolution)
   end
 
   def self.display_size_from(display_size)
