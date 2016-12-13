@@ -17,54 +17,9 @@ class Product < ActiveRecord::Base
     "#{id} #{title}".parameterize
   end
 
-  def self.filter_by(filter_params)
-    results = joins(:comments).
-      select('products.*, count(mentions.product_id) as "mentions_count"').
-      group('products.id').
-      order('mentions_count DESC')
-
-    filter_params.each do |key, value|
-      results = results.public_send(key, value) if value.present?
-    end
-
-    results
-  end
-
-  def self.after(time)
-      where('comments.created_utc > ?', Time.now - ::TimeAbbr.to_time(time))
-  end
-
-  def self.price_from(price)
-    where('price_in_cents >= ?', price.to_f*100)
-  end
-
-  def self.price_to(price)
-    where('price_in_cents < ?', price.to_f*100)
-  end
-
-  def self.brand(brand_name)
-    where(brand: brand_name)
-  end
-
-  def self.ram(ram_size)
-    where(ram: ram_size)
-  end
-
-  def self.display_resolution(display_resolution)
-    where(display_resolution: display_resolution)
-  end
-
-  def self.display_size_from(display_size)
-    where('display_size >= ?', display_size)
-  end
-
-  def self.display_size_to(display_size)
-    where('display_size < ?', display_size)
-  end
-
   def self.filter_attr_distribution(filter_params)
     ATTRIBUTES.map do |attr|
-      results = unscoped.filter_by(filter_params.except(*ATTR_PARAMS[attr]))
+      results = ProductFilter.new(unscoped).filter_by(filter_params.except(*ATTR_PARAMS[attr]))
       [attr,results.public_send("#{attr}_distribution")]
     end.to_h
 
