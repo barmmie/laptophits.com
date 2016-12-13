@@ -1,4 +1,6 @@
 class Specification
+  SPEC_PARAMS = %i(brand display_size ram display_resolution)
+
   attr_reader :data_sources
 
   def initialize(data = {})
@@ -6,10 +8,7 @@ class Specification
   end
 
   def extract
-    {brand: extract_brand,
-     display_size: extract_display_size,
-     ram: extract_ram,
-     display_resolution: extract_display_resolution}
+    SPEC_PARAMS.map{|spec_param| [spec_param, public_send("extract_#{spec_param}")]}.to_h
   end
 
   def extract_brand
