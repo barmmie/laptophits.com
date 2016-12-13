@@ -7,6 +7,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'jquery-rails'
 gem 'amazon-ecs'
 gem 'will_paginate', '~> 3.1.0'
+gem 'nokogiri'
+gem 'rest-client'
 
 group :development, :test do
   gem 'byebug'
