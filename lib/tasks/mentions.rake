@@ -31,6 +31,7 @@ namespace :mentions do
             p.price_in_cents = product[:price].to_i if product[:price]
 
             p.amazon_api_data = product
+            p.amazon_www_data = AmazonScraper.new(p.offer_url).technical_details
           end
           mentioned_product.update_spec
           mentioned_product
