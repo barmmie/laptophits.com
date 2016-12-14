@@ -35,7 +35,7 @@ namespace :products do
 
   desc "Update amazon www data"
   task update_amazon_www_data: :environment do
-    Product.all.each do |product|
+    Product.where("amazon_www_data = '{}'").each do |product|
       product.amazon_www_data = AmazonScraper.new(product.offer_url).technical_details
       product.save
 
