@@ -1,5 +1,5 @@
 class SpecificationExtractor
-  SPEC_PARAMS = %i(brand ram_size)# operating_system display_size display_resolution processor_type hard_drive_size hard_drive_type laptop_weight)
+  SPEC_PARAMS = %i(brand ram_size display_size)# operating_system display_resolution processor_type hard_drive_size hard_drive_type laptop_weight)
 
   attr_reader :data_sources
 
@@ -14,11 +14,6 @@ class SpecificationExtractor
     end.to_h
   end
 
-#  def extract_brand
-#    extracted_brands = BrandExtractor.new([data_sources[:amazon_api_data]['brand'].to_s, data_sources[:amazon_api_data]['title']].join(' ')).brands
-#    extracted_brands.group_by(&:itself).map{|e| [e.first, e.second.length]}.sort_by{|k,v| v}.reverse.to_h.keys.first || 'Other'
-#  end
-#
 #  def extract_display_size
 #    text = data_sources[:amazon_api_data]['features'].unshift(data_sources[:amazon_api_data]['title']).join(',')
 #
