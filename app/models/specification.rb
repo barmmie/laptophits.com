@@ -1,4 +1,4 @@
-class SpecificationExtractor
+class Specification
   SPEC_PARAMS = %i(brand ram_size display_size display_resolution)# operating_system processor_type hard_drive_size hard_drive_type laptop_weight)
 
   attr_reader :data_sources
@@ -13,4 +13,5 @@ class SpecificationExtractor
       [spec_param, extractor.new(data_sources).public_send(:extract)]
     end.to_h
   end
+
 end
