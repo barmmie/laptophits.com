@@ -31,11 +31,11 @@ class ProductFilter
   end
 
   def brand(brand_name)
-    scope.where(brand: brand_name)
+    scope.where(brand: brand_name == 'Other' ? nil : brand_name)
   end
 
   def operating_system(os)
-    scope.where(operating_system: os)
+    scope.where(operating_system: os == 'Uknown' ? nil : os)
   end
 
   def ram_size(ram_size)
