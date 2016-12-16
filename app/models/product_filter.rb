@@ -38,6 +38,10 @@ class ProductFilter
     scope.where(operating_system: os == 'Uknown' ? nil : os)
   end
 
+  def processor(name)
+    scope.where(processor: name == 'Uknown' ? nil : name)
+  end
+
   def ram_size(ram_size)
     scope.where(ram_size: ram_size)
   end

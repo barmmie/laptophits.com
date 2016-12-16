@@ -36,6 +36,25 @@ module ProductsHelper
 
   end
 
+  def processor_filter(processors, params)
+    list = processors.map do |processor, count|
+      "<li>" + 
+        link_to_unless(params[:processor] == processor,
+        "#{processor} (#{count})",
+        products_path(params.except(:controller, :action, :page).merge({processor: processor}))) +
+      "</li>"
+    end.join
+    
+    list = "<li>" + 
+      link_to_unless(params[:processor].nil?,
+      "All Processor Types",
+      products_path(params.except(:controller, :action, :page).merge(processor: nil))) + 
+      "</li>" + list
+
+    "<ul>#{list}</ul>".html_safe
+
+  end
+
   def display_size_filter(display_sizes, params)
     list = display_sizes.except(0).map do |display_size, count| 
       "<li>" + 
