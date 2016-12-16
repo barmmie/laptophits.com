@@ -1,5 +1,5 @@
 class Specification
-  SPEC_PARAMS = %i(brand ram_size display_size display_resolution)# operating_system processor_type hard_drive_size hard_drive_type laptop_weight)
+  SPEC_PARAMS = %i(brand ram_size display_size display_resolution operating_system)# processor_type hard_drive_size hard_drive_type laptop_weight)
 
   attr_reader :data_sources
 

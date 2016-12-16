@@ -17,6 +17,25 @@ module ProductsHelper
     "<ul>#{list}</ul>".html_safe
   end
 
+  def operating_system_filter(operating_systems, params)
+    list = operating_systems.map do |operating_system, count|
+      "<li>" + 
+        link_to_unless(params[:operating_system] == operating_system,
+        "#{operating_system} (#{count})",
+        products_path(params.except(:controller, :action, :page).merge({operating_system: operating_system}))) +
+      "</li>"
+    end.join
+    
+    list = "<li>" + 
+      link_to_unless(params[:operating_system].nil?,
+      "All OS",
+      products_path(params.except(:controller, :action, :page).merge(operating_system: nil))) + 
+      "</li>" + list
+
+    "<ul>#{list}</ul>".html_safe
+
+  end
+
   def display_size_filter(display_sizes, params)
     list = display_sizes.except(0).map do |display_size, count| 
       "<li>" + 
