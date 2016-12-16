@@ -3,7 +3,9 @@ class Product < ActiveRecord::Base
   has_many :comments, through: :mentions
 
   def update_spec
-    update_attributes( Specification.new(title: title, amazon_api_data: amazon_api_data).extract )
+    update_attributes( SpecificationExtractor.new({ 
+      amazon_api_data: amazon_api_data,
+      amazon_www_data: amazon_www_data }).extract )
   end
 
   def to_param

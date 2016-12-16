@@ -8,7 +8,7 @@ class ProductsController < ApplicationController
     @brands = attr_distr[:brand]
     @prices = attr_distr[:price]
     @display_sizes = attr_distr[:display_size]
-    @rams = attr_distr[:ram]
+    @rams = attr_distr[:ram_size]
     @display_resolutions = attr_distr[:display_resolution]
 
     @products = @products.paginate(page: params[:page], per_page: 10)
@@ -18,6 +18,6 @@ class ProductsController < ApplicationController
   private 
 
   def filter_params
-    params.slice(:after, :price_from, :price_to, :brand, :display_size_from, :display_size_to, :ram, :display_resolution)
+    params.slice(:after, :price_from, :price_to, :brand, :display_size_from, :display_size_to, :ram_size, :display_resolution)
   end
 end

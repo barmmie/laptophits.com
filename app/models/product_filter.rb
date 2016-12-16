@@ -34,8 +34,8 @@ class ProductFilter
     scope.where(brand: brand_name)
   end
 
-  def ram(ram_size)
-    scope.where(ram: ram_size)
+  def ram_size(ram_size)
+    scope.where(ram_size: ram_size)
   end
 
   def display_resolution(display_resolution)

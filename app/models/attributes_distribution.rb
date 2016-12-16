@@ -1,9 +1,9 @@
 class AttributesDistribution
-  ATTRIBUTES = [:brand, :price, :display_size, :ram, :display_resolution]
+  ATTRIBUTES = [:brand, :price, :display_size, :ram_size, :display_resolution]
   ATTR_PARAMS = {brand: [:brand],
                  price: [:price_from, :price_to],
                  display_size: [:display_size_from, :display_size_to],
-                 ram: [:ram],
+                 ram_size: [:ram_size],
                  display_resolution: [:display_resolution] }
 
   attr_reader :scope, :filter_params
@@ -36,8 +36,8 @@ class AttributesDistribution
     brands_distribution
   end
 
-  def ram_distribution
-    rams_distribution = scope.all.map(&:ram).group_by(&:itself).except(nil).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
+  def ram_size_distribution
+    rams_size_distribution = scope.all.map(&:ram_size).group_by(&:itself).except(nil).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
   end
 
   def display_resolution_distribution

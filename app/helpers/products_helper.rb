@@ -40,17 +40,17 @@ module ProductsHelper
     list = rams.map do |ram, count|
       "<li>" + 
         link_to_unless(
-          params[:ram].to_i == ram,
+          params[:ram_size].to_i == ram,
           "#{ram} GB (#{count})",
-          products_path(params.except(:controller, :action, :page).merge({ram: ram}))) +
+          products_path(params.except(:controller, :action, :page).merge({ram_size: ram}))) +
       "</li>"
     end.join
 
     list = "<li>" + 
       link_to_unless(
-        params[:ram].nil?,
+        params[:ram_size].nil?,
         "All RAM sizes",
-        products_path(params.except(:controller, :action, :page).merge(ram: nil))) +
+        products_path(params.except(:controller, :action, :page).merge(ram_size: nil))) +
       "</li>" + list
 
     "<ul>#{list}</ul>".html_safe
