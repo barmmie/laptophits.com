@@ -32,7 +32,7 @@ class AttributesDistribution
 
   def brand_distribution
     brands_distribution = scope.all.map(&:brand).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
-    brands_distribution['Other'] = brands_distribution.delete('Other') if brands_distribution['Other']
+    brands_distribution['Other'] = brands_distribution.delete(nil) if brands_distribution[nil]
     brands_distribution
   end
 
