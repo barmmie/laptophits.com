@@ -1,10 +1,11 @@
 class AttributesDistribution
-  ATTRIBUTES = [:brand, :price, :display_size, :ram_size, :display_resolution]
+  ATTRIBUTES = [:brand, :price, :display_size, :ram_size, :display_resolution, :operating_system]
   ATTR_PARAMS = {brand: [:brand],
                  price: [:price_from, :price_to],
                  display_size: [:display_size_from, :display_size_to],
                  ram_size: [:ram_size],
-                 display_resolution: [:display_resolution] }
+                 display_resolution: [:display_resolution],
+                 operating_system: [:operating_system] }
 
   attr_reader :scope, :filter_params
 
@@ -66,4 +67,9 @@ class AttributesDistribution
     initial_distribution.map{|price_range, count| [price_range/100, count]}.push([nil, no_prices_count]).to_h
   end
 
+  def operating_system_distribution
+    operating_systems_distribution = scope.all.map(&:operating_system).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| y[1] <=> x[1] || 1}.to_h
+    operating_systems_distribution['Uknown'] = operating_systems_distribution.delete(nil) if operating_systems_distribution[nil]
+    operating_systems_distribution
+  end
 end
