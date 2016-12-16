@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216131659) do
+ActiveRecord::Schema.define(version: 20161216161824) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20161216131659) do
     t.string   "display_resolution"
     t.jsonb    "amazon_www_data"
     t.string   "operating_system"
+    t.string   "processor"
   end
 
   create_table "specifications", force: :cascade do |t|
