@@ -1,14 +1,4 @@
 class AttributesDistribution
-  ATTRIBUTES = Specification::SPEC_PARAMS.merge(price: :number)
-  ATTR_PARAMS = {brand: [:brand],
-                 price: [:price_from, :price_to],
-                 display_size: [:display_size_from, :display_size_to],
-                 ram_size: [:ram_size],
-                 display_resolution: [:display_resolution],
-                 operating_system: [:operating_system],
-                 processor: [:processor]}
-
-
   attr_reader :scope, :filter_params
 
   def initialize(scope = Product.all, filter_params)
@@ -16,15 +6,34 @@ class AttributesDistribution
     @filter_params = filter_params
   end
 
+  def self.distr_attributes 
+    Specification::SPEC_PARAMS + [:price]
+  end
+
+  def self.range_distr_attributes
+    %i(price display_size)
+  end
+
+  def self.attributes_filter_params
+    distr_attributes.map do |attr|
+      if range_distr_attributes.include? attr
+        [attr, ["#{attr}_from".to_sym, "#{attr}_to".to_sym]]
+      else
+        [attr, [attr]]
+      end
+    end.to_h
+  end
+
+
   def calculate
-    ATTRIBUTES.keys.map do |attr|
-      results = ProductFilter.new(scope.unscoped).filter_by(filter_params.except(*ATTR_PARAMS[attr]))
+    self.class.distr_attributes.map do |attr|
+      results = ProductFilter.new(scope.unscoped).filter_by(filter_params.except(*self.class.attributes_filter_params[attr]))
       [attr,AttributesDistribution.new(results, filter_params).public_send("#{attr}_distribution")]
     end.to_h
   end
 
   def self.attr_distribution
-    ATTRIBUTES.keys.map do |attr|
+    distr_attributes.map do |attr|
       [attr, public_send("#{attr}_distribution")]
     end.to_h
   end

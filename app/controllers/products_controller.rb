@@ -20,6 +20,6 @@ class ProductsController < ApplicationController
   private 
 
   def filter_params
-    params.slice(:after, :price_from, :price_to, :brand, :display_size_from, :display_size_to, :ram_size, :display_resolution, :operating_system, :processor)
+    params.slice(*AttributesDistribution.attributes_filter_params.values.flatten)
   end
 end
