@@ -1,9 +1,5 @@
 class AttributesDistribution
-<<<<<<< HEAD
   ATTRIBUTES = Specification::SPEC_PARAMS.merge(price: :number)
-=======
-  ATTRIBUTES = Specification::SPEC_PARAMS.merge(price: :number])
->>>>>>> refactoring
   ATTR_PARAMS = {brand: [:brand],
                  price: [:price_from, :price_to],
                  display_size: [:display_size_from, :display_size_to],
