@@ -13,7 +13,7 @@ class ProductsController < ApplicationController
     @operating_systems = attr_distr[:operating_system]
     @processors = attr_distr[:processor]
 
-    @products = @products.paginate(page: params[:page], per_page: 10)
+    @products = @products.paginate(page: params[:page], per_page: 25)
 
   end
 
