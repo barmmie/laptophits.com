@@ -1,5 +1,5 @@
 class AttributesDistribution
-  ATTRIBUTES = [:brand, :price, :display_size, :ram_size, :display_resolution, :operating_system, :processor]
+  ATTRIBUTES = Specification::SPEC_PARAMS.merge(price: :number]
   ATTR_PARAMS = {brand: [:brand],
                  price: [:price_from, :price_to],
                  display_size: [:display_size_from, :display_size_to],
@@ -17,14 +17,14 @@ class AttributesDistribution
   end
 
   def calculate
-    ATTRIBUTES.map do |attr|
+    ATTRIBUTES.keys.map do |attr|
       results = ProductFilter.new(scope.unscoped).filter_by(filter_params.except(*ATTR_PARAMS[attr]))
       [attr,AttributesDistribution.new(results, filter_params).public_send("#{attr}_distribution")]
     end.to_h
   end
 
   def self.attr_distribution
-    ATTRIBUTES.map do |attr|
+    ATTRIBUTES.keys.map do |attr|
       [attr, public_send("#{attr}_distribution")]
     end.to_h
   end
