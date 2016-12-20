@@ -12,6 +12,7 @@ class ProductsController < ApplicationController
     @display_resolutions = attr_distr[:display_resolution]
     @operating_systems = attr_distr[:operating_system]
     @processors = attr_distr[:processor]
+    @hdd_types = attr_distr[:hdd_type]
 
     @products = @products.paginate(page: params[:page], per_page: 25)
 

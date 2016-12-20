@@ -36,6 +36,24 @@ module ProductsHelper
 
   end
 
+  def hdd_type_filter(hdd_types, params)
+    list = hdd_types.map do |hdd_type, count|
+      "<li>" + 
+        link_to_unless(params[:hdd_type] == hdd_type,
+        "#{hdd_type} (#{count})",
+        products_path(params.except(:controller, :action, :page).merge({hdd_type: hdd_type}))) +
+      "</li>"
+    end.join
+    
+    list = "<li>" + 
+      link_to_unless(params[:hdd_type].nil?,
+      "All HDD types",
+      products_path(params.except(:controller, :action, :page).merge(hdd_type: nil))) + 
+      "</li>" + list
+
+    "<ul>#{list}</ul>".html_safe
+  end
+
   def processor_filter(processors, params)
     list = processors.map do |processor, count|
       "<li>" + 

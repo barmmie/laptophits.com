@@ -42,6 +42,12 @@ class AttributesDistribution
     scope.all.map(&:display_size).map(&:to_i).sort.reverse.group_by(&:itself).map{|k,v| [k,v.length]}.to_h
   end
 
+  def hdd_type_distribution
+    hdd_types_distribution = scope.all.map(&:hdd_type).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| y[1] <=> x[1] || 1}.to_h
+    hdd_types_distribution['Uknown'] = hdd_types_distribution.delete(nil) if hdd_types_distribution[nil]
+    hdd_types_distribution
+  end
+
   def brand_distribution
     brands_distribution = scope.all.map(&:brand).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
     brands_distribution['Other'] = brands_distribution.delete(nil) if brands_distribution[nil]

@@ -38,6 +38,10 @@ class ProductFilter
     scope.where(operating_system: os == 'Uknown' ? nil : os)
   end
 
+  def hdd_type(type)
+    scope.where(hdd_type: type == 'Uknown' ? nil : type)
+  end
+
   def processor(name)
     scope.where(processor: name == 'Uknown' ? nil : name)
   end
@@ -45,6 +49,7 @@ class ProductFilter
   def ram_size(ram_size)
     scope.where(ram_size: ram_size)
   end
+
 
   def display_resolution(display_resolution)
     scope.where(display_resolution: display_resolution)
