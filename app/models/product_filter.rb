@@ -1,8 +1,30 @@
 class ProductFilter
+  VALUE_PARAMS = %i(brand operating_system hdd_type processor ram_size display_resolution)
+  RANGE_PARAMS = %i(price display_size)
+  NIL_NAMES = {brand: 'Other', operating_system: 'Unknown',
+               hdd_type: 'Uknown', processor: 'Unknown', ram_size: 'Unknown',
+               display_resolution: 'Unknown'}
+
   attr_reader :scope
 
   def initialize(scope = Product.all)
     @scope = scope
+  end
+
+  VALUE_PARAMS.each do |param|
+    define_method param do |value|
+      scope.where(param => value == NIL_NAMES[param] ? nil : value)
+    end
+  end
+
+  RANGE_PARAMS.each do |param|
+    define_method "#{param}_from".to_sym do |value|
+      scope.where("#{param} >= ?", value)
+    end
+
+    define_method "#{param}_to".to_sym do |value|
+      scope.where("#{param} < ?", value)
+    end
   end
 
   def filter_by(filter_params)
@@ -18,6 +40,8 @@ class ProductFilter
     results
   end
 
+  #custom filters
+
   def after(time)
     scope.where('comments.created_utc > ?', Time.now - ::TimeAbbr.to_time(time))
   end
@@ -28,38 +52,5 @@ class ProductFilter
 
   def price_to(price)
     scope.where('price_in_cents < ?', price.to_f*100)
-  end
-
-  def brand(brand_name)
-    scope.where(brand: brand_name == 'Other' ? nil : brand_name)
-  end
-
-  def operating_system(os)
-    scope.where(operating_system: os == 'Uknown' ? nil : os)
-  end
-
-  def hdd_type(type)
-    scope.where(hdd_type: type == 'Uknown' ? nil : type)
-  end
-
-  def processor(name)
-    scope.where(processor: name == 'Uknown' ? nil : name)
-  end
-
-  def ram_size(ram_size)
-    scope.where(ram_size: ram_size)
-  end
-
-
-  def display_resolution(display_resolution)
-    scope.where(display_resolution: display_resolution)
-  end
-
-  def display_size_from(display_size)
-    scope.where('display_size >= ?', display_size)
-  end
-
-  def display_size_to(display_size)
-    scope.where('display_size < ?', display_size)
   end
 end
