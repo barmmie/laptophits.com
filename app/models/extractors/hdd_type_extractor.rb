@@ -7,6 +7,12 @@ class HddTypeExtractor
   end
 
   def extract
+    hdd_types = [extract_from_amazon_api_data, extract_from_amazon_www_data]
+
+    return 'SSD + HDD' if hdd_types.include? 'SSD + HDD'
+    return hdd_types.uniq.first if hdd_types.uniq.length == 1
+    return nil if !hdd_types.include?(nil) && hdd_types[0] != hdd_types[1]
+
     extract_from_amazon_www_data || extract_from_amazon_api_data
   end
 
@@ -16,8 +22,8 @@ class HddTypeExtractor
     return 'Hybrid' if text =~ hybrid_regexp
 
     dual_regexp_array = [
-      /hdd.*ssd/i,
-      /ssd.*hdd/i
+      /(?:hdd|rpm|hard.disk.drive).*(?:ssd|solid.state.drive)/i,
+      /(?:ssd|solid.state.drive).*(?:hdd|rpm|hard.disk.drive)/i
     ]
 
     dual_regexp = Regexp.union(dual_regexp_array)
