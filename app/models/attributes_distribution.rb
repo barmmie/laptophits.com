@@ -38,30 +38,6 @@ class AttributesDistribution
     end.to_h
   end
 
-  def display_size_distribution
-    scope.all.map(&:display_size).map(&:to_i).sort.reverse.group_by(&:itself).map{|k,v| [k,v.length]}.to_h
-  end
-
-  def hdd_type_distribution
-    hdd_types_distribution = scope.all.map(&:hdd_type).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| y[1] <=> x[1] || 1}.to_h
-    hdd_types_distribution['Unknown'] = hdd_types_distribution.delete(nil) if hdd_types_distribution[nil]
-    hdd_types_distribution
-  end
-
-  def brand_distribution
-    brands_distribution = scope.all.map(&:brand).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
-    brands_distribution['Other'] = brands_distribution.delete(nil) if brands_distribution[nil]
-    brands_distribution
-  end
-
-  def ram_size_distribution
-    rams_size_distribution = scope.all.map(&:ram_size).group_by(&:itself).except(nil).map{|k,v| [k,v.length]}.sort{|x,y| x <=> y || 1}.to_h
-  end
-
-  def display_resolution_distribution
-    display_resolutions_distribution = scope.all.map(&:display_resolution).group_by(&:itself).except(nil).map{|k,v| [k,v.length]}.sort{|x,y| y <=> x || 1}.to_h
-  end
-
   def price_in_cents_distribution
     price_ranges = [150000, 100000, 80000, 60000, 40000, 0]
     values = scope.all.map(&:price_in_cents)
@@ -84,15 +60,46 @@ class AttributesDistribution
     initial_distribution.map{|price_range, count| [price_range/100, count]}.push([nil, no_prices_count]).to_h
   end
 
+  def attribute_distribution(attribute_name, params = {})
+    attributes_distribution = scope.all.map{|product| product.public_send(attribute_name)}.group_by(&:itself).map{|k,v| [k,v.length]}.to_h
+    nil_count = attributes_distribution.delete(nil)
+    if params[:sort_by] == :count
+      attributes_distribution = attributes_distribution.sort{|x,y| y[1] <=> x[1] || 1}.to_h
+    else
+      attributes_distribution = attributes_distribution.sort{|x,y| x[0] <=> y[0] || 1}.to_h
+    end
+      
+    attributes_distribution[ProductFilter::NIL_NAMES[attribute_name]] = nil_count if nil_count && params[:nil_values] == true
+
+    attributes_distribution
+  end
+
   def operating_system_distribution
-    operating_systems_distribution = scope.all.map(&:operating_system).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| y[1] <=> x[1] || 1}.to_h
-    operating_systems_distribution['Uknown'] = operating_systems_distribution.delete(nil) if operating_systems_distribution[nil]
-    operating_systems_distribution
+    attribute_distribution(:operating_system, sort_by: :name)
   end
 
   def processor_distribution
-    processors_distribution = scope.all.map(&:processor).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| y[1] <=> x[1] || 1}.to_h
-    processors_distribution['Uknown'] = processors_distribution.delete(nil) if processors_distribution[nil]
-    processors_distribution
+    attribute_distribution(:processor, nil_values: true )
   end
+
+  def hdd_type_distribution
+    attribute_distribution(:hdd_type, nil_values: true)
+  end
+
+  def brand_distribution
+    attribute_distribution(:brand, sort_by: :name, nil_values: true)
+  end
+
+  def ram_size_distribution
+    attribute_distribution(:ram_size, sort_by: :name, nil_values: false)
+  end
+
+  def display_resolution_distribution
+    attribute_distribution(:display_resolution, sort_by: :name, nil_values: false)
+  end
+
+  def display_size_distribution
+    scope.all.map(&:display_size).map(&:to_i).sort.reverse.group_by(&:itself).map{|k,v| [k,v.length]}.to_h
+  end
+
 end
