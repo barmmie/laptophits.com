@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   def index
     @mentions_count = Mention.count
 
-    @products = ProductFilter.new.filter_by(filter_params)
+    @products = ProductFilter.new.filter_by(filter_params.merge(params.slice('after')))
     attr_distr = AttributesDistribution.new(@products, filter_params).calculate
 
     @brands = attr_distr[:brand]
