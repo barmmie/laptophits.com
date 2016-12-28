@@ -8,16 +8,7 @@ class HddExtractor
   end
 
   def extract
-    extracted_data = [extract_from_amazon_api_data, extract_from_amazon_www_data]
-    results = HDD_CLEANERS.map do |cleaner|
-      send("#{cleaner}_cleaner".to_sym, extracted_data)
-    end
-
-    result = results[0].zip(results[1]).map do |x,y|
-      x || y
-    end
-
-    result
+    extract_from_amazon_api_data 
   end
 
   def combine_results_cleaner(drives)
