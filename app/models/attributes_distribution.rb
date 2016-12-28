@@ -44,7 +44,7 @@ class AttributesDistribution
 
   def hdd_type_distribution
     hdd_types_distribution = scope.all.map(&:hdd_type).group_by(&:itself).map{|k,v| [k,v.length]}.sort{|x,y| y[1] <=> x[1] || 1}.to_h
-    hdd_types_distribution['Uknown'] = hdd_types_distribution.delete(nil) if hdd_types_distribution[nil]
+    hdd_types_distribution['Unknown'] = hdd_types_distribution.delete(nil) if hdd_types_distribution[nil]
     hdd_types_distribution
   end
 

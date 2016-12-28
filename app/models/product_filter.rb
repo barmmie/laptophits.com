@@ -2,7 +2,7 @@ class ProductFilter
   VALUE_PARAMS = %i(brand operating_system hdd_type processor ram_size display_resolution)
   RANGE_PARAMS = %i(price display_size)
   NIL_NAMES = {brand: 'Other', operating_system: 'Unknown',
-               hdd_type: 'Uknown', processor: 'Unknown', ram_size: 'Unknown',
+               hdd_type: 'Unknown', processor: 'Unknown', ram_size: 'Unknown',
                display_resolution: 'Unknown'}
 
   attr_reader :scope
