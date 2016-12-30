@@ -1,4 +1,6 @@
 class AttributesDistribution
+  include AttributesInfo
+
   attr_reader :scope, :filter_params
 
   def initialize(scope = Product.all, filter_params)
@@ -6,12 +8,12 @@ class AttributesDistribution
     @filter_params = filter_params
   end
 
-  def self.distr_attributes 
-    Specification::SPEC_PARAMS + [:price]
+  def self.distr_attributes
+    SPEC_PARAMS + [:price]
   end
 
   def self.range_distr_attributes
-    %i(price display_size hdd_size)
+    RANGE_PARAMS
   end
 
   def self.attributes_filter_params
@@ -24,17 +26,16 @@ class AttributesDistribution
     end.to_h
   end
 
+  def self.attr_distribution
+    distr_attributes.map do |attr|
+      [attr, public_send("#{attr}_distribution")]
+    end.to_h
+  end
 
   def calculate
     self.class.distr_attributes.map do |attr|
       results = ProductFilter.new(scope.unscoped).filter_by(filter_params.except(*self.class.attributes_filter_params[attr]))
       [attr,AttributesDistribution.new(results, filter_params).public_send("#{attr}_distribution")]
-    end.to_h
-  end
-
-  def self.attr_distribution
-    distr_attributes.map do |attr|
-      [attr, public_send("#{attr}_distribution")]
     end.to_h
   end
 
@@ -84,7 +85,7 @@ class AttributesDistribution
       attributes_distribution = attributes_distribution.sort{|x,y| x[0] <=> y[0] || 1}.to_h
     end
       
-    attributes_distribution[ProductFilter::NIL_NAMES[attribute_name]] = nil_count if nil_count && params[:nil_values] == true
+    attributes_distribution[nil_name(attribute_name)] = nil_count if nil_count && params[:nil_values] == true
 
     attributes_distribution
   end

@@ -1,10 +1,5 @@
 class ProductFilter
-  VALUE_PARAMS = %i(brand operating_system hdd_type processor ram_size display_resolution)
-  RANGE_PARAMS = %i(price display_size hdd_size)
-  NIL_NAMES = {brand: 'Other', operating_system: 'Unknown',
-               hdd_type: 'Unknown', processor: 'Unknown', ram_size: 'Unknown',
-               display_resolution: 'Unknown', hdd_size: 'Unknown'}
-
+  include AttributesInfo
   attr_reader :scope
 
   def initialize(scope = Product.all)
@@ -39,8 +34,6 @@ class ProductFilter
 
     results
   end
-
-  #custom filters
 
   def after(time)
     scope.where('comments.created_utc > ?', Time.now - ::TimeAbbr.to_time(time))
