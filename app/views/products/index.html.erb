@@ -48,6 +48,17 @@
 <h4>HDD Type</h4>
 <%= hdd_type_filter(@hdd_types, params) %>
 
+<h4>HDD Size</h3>
+<ul>
+  <li><%= link_to_unless params[:hdd_size_from].nil? && params[:hdd_size_to].nil?, "All sizes", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: nil, hdd_size_to: nil})) %></li>
+  <li><%= link_to_unless params[:hdd_size_to].to_i == 128, "127GB & Under (#{@hdd_sizes[0]})", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: 0, hdd_size_to: 128})) if @hdd_sizes[0] > 0%></li>
+  <li><%= link_to_unless params[:hdd_size_from].to_i == 128 && params[:hdd_size_to].to_i == 256, "128GB to 255GB (#{@hdd_sizes[128]})", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: 128, hdd_size_to: 256})) if @hdd_sizes[128] > 0 %></li>
+  <li><%= link_to_unless params[:hdd_size_from].to_i == 256 && params[:hdd_size_to].to_i == 512, "256GB to 511GB (#{@hdd_sizes[256]})", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: 256, hdd_size_to: 512})) if @hdd_sizes[256] > 0 %></li>
+  <li><%= link_to_unless params[:hdd_size_from].to_i == 512 && params[:hdd_size_to].to_i == 1024, "0.5TB to 1TB (#{@hdd_sizes[512]})", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: 512, hdd_size_to: 1024})) if @hdd_sizes[512] > 0 %></li>
+  <li><%= link_to_unless params[:hdd_size_from].to_i == 1024 && params[:hdd_size_to].to_i == 1536, "1TB to 1.5TB (#{@hdd_sizes[1024]})", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: 1024, hdd_size_to: 1536})) if @hdd_sizes[1024] > 0 %></li>
+  <li><%= link_to_unless params[:hdd_size_from].to_i == 1536 && params[:hdd_size_to].nil?, "1.5TB & Above (#{@hdd_sizes[1536]})", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: 1536, hdd_size_to: nil})) if @hdd_sizes[1536] > 0 %></li>
+</ul>
+
 <h4>Processor: </h4>
 <%= processor_filter(@processors, params) %>
 <% end %>

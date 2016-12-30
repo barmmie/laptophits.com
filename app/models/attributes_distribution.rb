@@ -11,7 +11,7 @@ class AttributesDistribution
   end
 
   def self.range_distr_attributes
-    %i(price display_size)
+    %i(price display_size hdd_size)
   end
 
   def self.attributes_filter_params
@@ -53,6 +53,21 @@ class AttributesDistribution
     end.reverse.to_h.merge({nil => no_price_count})
   end
 
+  def hdd_size_distribution
+    hdd_size_ranges = [1536,1024,512,256,128,0]
+    values = scope.all.map(&:hdd_size)
+    no_hdd_size_count = values.count(nil)
+
+    values = values.reject(&:nil?)
+
+    hdd_size_ranges.map do |hdd_size_range|
+      hdd_size_range_count = values.select{|value| value >= hdd_size_range}.length
+      values.reject!{|value| value >= hdd_size_range}
+
+      [hdd_size_range, hdd_size_range_count]
+    end.reverse.to_h.merge({nil => no_hdd_size_count})
+  end
+
   def price_distribution
     initial_distribution = price_in_cents_distribution
     no_prices_count = initial_distribution.delete(nil)
@@ -73,6 +88,7 @@ class AttributesDistribution
 
     attributes_distribution
   end
+
 
   def operating_system_distribution
     attribute_distribution(:operating_system, sort_by: :name)
