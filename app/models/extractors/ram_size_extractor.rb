@@ -39,6 +39,12 @@ class RamSizeExtractor
   def extract_from_amazon_www_data
     ram_size_regexp = /^(\d+)/
     ram_size = amazon_www_data['RAM'].to_s.match(ram_size_regexp){|m| m.captures.first}
-    ram_size.to_i if ram_size
+
+    if ram_size && ram_size.to_i > 0
+      ram_size.to_i
+    else
+      nil
+    end
+
   end
 end
