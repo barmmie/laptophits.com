@@ -1,18 +1,17 @@
 class ProductFilter
-  include AttributesInfo
   attr_reader :scope
 
   def initialize(scope = Product.all)
     @scope = scope
   end
 
-  VALUE_PARAMS.each do |param|
+  Specification.value_params.each do |param|
     define_method param do |value|
-      scope.where(param => value == NIL_NAMES[param] ? nil : value)
+      scope.where(param => value == Specification.nil_name(param) ? nil : value)
     end
   end
 
-  RANGE_PARAMS.each do |param|
+  Specification.range_params.each do |param|
     define_method "#{param}_from".to_sym do |value|
       scope.where("#{param} >= ?", value)
     end

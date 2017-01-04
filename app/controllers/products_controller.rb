@@ -22,6 +22,6 @@ class ProductsController < ApplicationController
   private 
 
   def filter_params
-    params.slice(*AttributesDistribution.attributes_filter_params.values.flatten)
+    params.slice(*Specification.filter_params.values.flatten)
   end
 end
