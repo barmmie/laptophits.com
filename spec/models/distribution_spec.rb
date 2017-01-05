@@ -10,18 +10,9 @@ RSpec.describe Distribution, type: :model do
     end
 
     context 'when range distribution' do
-      let(:values) { (-5..5).to_a }
-
       it 'calculates range distribution' do
-      end
-
-      context 'with nil values' do
-      end
-
-      context 'with positive infinity' do
-      end
-
-      context 'with negative infinity' do
+        values = (0..10).to_a
+        expect(Distribution.new(values,[9, 6, 2, 0]).calculate).to eq ({9 => 2, 6 => 3, 2 => 4, 0 => 2})
       end
     end
   end

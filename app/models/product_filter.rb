@@ -11,7 +11,7 @@ class ProductFilter
     end
   end
 
-  Specification.range_params.each do |param|
+  Specification.range_params.keys.each do |param|
     define_method "#{param}_from".to_sym do |value|
       scope.where("#{param} >= ?", value)
     end
