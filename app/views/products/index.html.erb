@@ -30,23 +30,20 @@
   <li><%= link_to_unless params[:price_from].to_i == 1501 && params[:price_to].nil?, "$1500+ (#{@prices[1500]})", products_path(params.except(:controller, :action, :page).merge({price_from: 1500, price_to: nil})) if @prices[1500] > 0 %></li>
 </ul>
 
-<h4>Brands: </h4>
-<%= brand_filter(@brands, params) %>
 
-<h4>Operating Systems: </h4>
-<%= operating_system_filter(@operating_systems, params) %>
+<%= SpecificationFilters.new(:brand, @brands, params).html %>
+
+<%= SpecificationFilters.new(:operating_system, @operating_systems, params).html %>
 
 <h4>Display sizes: </h4>
 <%= display_size_filter(@display_sizes, params) %>
 
-<h4>Display resolution: </h4>
-<%= display_resolution_filter(@display_resolutions, params) %>
+<%= SpecificationFilters.new(:display_resolution, @display_resolutions, params).html %>
 
 <h4>Ram: </h4>
 <%= ram_filter(@rams, params) %>
 
-<h4>HDD Type</h4>
-<%= hdd_type_filter(@hdd_types, params) %>
+<%= SpecificationFilters.new(:hdd_type, @hdd_types, params).html %>
 
 <h4>HDD Size</h3>
 <ul>
@@ -59,8 +56,7 @@
   <li><%= link_to_unless params[:hdd_size_from].to_i == 1536 && params[:hdd_size_to].nil?, "1.5TB & Above (#{@hdd_sizes[1536]})", products_path(params.except(:controller, :action, :page).merge({hdd_size_from: 1536, hdd_size_to: nil})) if @hdd_sizes[1536] > 0 %></li>
 </ul>
 
-<h4>Processor: </h4>
-<%= processor_filter(@processors, params) %>
+<%= SpecificationFilters.new(:processor, @processors, params).html %>
 <% end %>
 
 
