@@ -27,7 +27,7 @@ namespace :mentions do
         Comment.create(comment).products = products.map do |product|
           mentioned_product = Product.find_or_create_by(asin: product[:asin]) do |p|
             p.title = product[:title]
-            p.offer_url = "https://www.amazon.com/dp/#{product[:asin]}/?tag=#{ENV['AMAZON_ASSOC_TAG']}"
+            p.offer_url = "https://www.amazon.com/dp/#{product[:asin]}"#/?tag=#{ENV['AMAZON_ASSOC_TAG']}"
             p.price_in_cents = product[:price].to_i if product[:price]
 
             p.amazon_api_data = product
