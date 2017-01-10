@@ -98,3 +98,13 @@ a:hover {
     display: inline;
   }
 }
+
+.footer {
+  clear:both;
+}
+
+.footer p {
+  text-align:center;
+  font-size: 0.8em;
+  margin:0;
+}
