@@ -3,7 +3,7 @@ namespace :products do
   task update_prices: :environment do
     Product.all.each do |product| 
       item = ProductExtractor.new(product.offer_url).get_products.first
-      if item[:price].present?
+      if item && item[:price].present?
         product.price_updated_at = Time.now
         if product.price_in_cents != item[:price] 
           puts "Old price: #{product.price_in_cents.to_f/100}, New price: #{item[:price].to_f/100}, Link: #{product.offer_url}"
