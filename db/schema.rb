@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161220134104) do
+ActiveRecord::Schema.define(version: 20170110151144) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20161220134104) do
     t.string   "processor"
     t.integer  "hdd_size"
     t.string   "hdd_type"
+    t.datetime "price_updated_at"
   end
 
   create_table "specifications", force: :cascade do |t|
