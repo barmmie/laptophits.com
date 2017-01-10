@@ -1,7 +1,7 @@
 <li>
   <p class="item"><%= link_to product.title, product.offer_url %></p>
   <p class="item-info">
-    Price: <%= product.price_in_cents.nil? ? "N/A" : "$#{product.price_in_cents/100.to_f}" %>, 
+  Price: <%= product.price_in_cents.nil? ? "N/A" : "$#{product.price_in_cents/100.to_f}" %> <%= "(as of #{product.price_updated_at.strftime("%b %e, %Y %H:%M %Z")})" if product.price_updated_at.present? %>, 
     <%= link_to("#{product.mentions_count} mentions", product_comments_path(product, after: params[:after])) %>
   </p>
 </li>
