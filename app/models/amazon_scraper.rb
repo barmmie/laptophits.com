@@ -32,6 +32,8 @@ class AmazonScraper
     begin
       RestClient.proxy = current_proxy
       RestClient.get(url, user_agent: ('a'..'z').to_a.shuffle[0,64].join )
+    rescue RestClient::NotFound
+      ""
     rescue RestClient::ServiceUnavailable
       retry unless next_proxy_server == proxy_list.first
     end
