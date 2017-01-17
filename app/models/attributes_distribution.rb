@@ -25,7 +25,12 @@ class AttributesDistribution
   #custom distributions
 
   def display_size_distribution
-    scope.all.map(&:display_size).map(&:to_i).sort.reverse.group_by(&:itself).map{|k,v| [k,v.length]}.to_h
+    display_sizes = scope.all.map(&:display_size)
+    no_display_size_count = display_sizes.select(&:nil?).length
+
+    display_sizes = display_sizes.reject!(&:nil?)
+
+    display_sizes.map(&:to_i).sort.reverse.group_by(&:itself).map{|k,v| [k,v.length]}.push([nil, no_display_size_count]).to_h
   end
 
   def price_distribution

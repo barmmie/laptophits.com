@@ -9,7 +9,7 @@ class Specification
   ]
 
   RANGE_PARAMS = {
-   :price => [],
+   :price => [1500, 1000, 800, 600, 400, 0],
    :price_in_cents => [150000, 100000, 80000, 60000, 40000, 0],
    :display_size => [] ,
    :hdd_size => [1536,1024,512,256,128,0] 
