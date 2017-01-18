@@ -35,11 +35,27 @@ module SpecificationFilterOptions
     end
   end
 
-  class PriceFilterOption < SpecificationFilterOption
+  class RangeFilterOption < SpecificationFilterOption
     def is_active?
-      params[:price_from] == value.to_s && params[:price_to] == price_to
+      params["#{attribute_name}_from".to_sym] == value.to_s && params["#{attribute_name}_to".to_sym] == _to
     end
 
+    def href
+      products_path(params.merge({"#{attribute_name}_from".to_sym => value, "#{attribute_name}_to".to_sym => _to}))
+    end
+
+    def _to
+      value_index = Specification.range_params[attribute_name].index value
+
+      if value_index == 0
+        nil
+      else
+        Specification.range_params[attribute_name][value_index - 1].to_s
+      end
+    end
+  end
+
+  class PriceFilterOption < RangeFilterOption 
     def text
       {
         0 => "$0 - $400", 
@@ -49,20 +65,6 @@ module SpecificationFilterOptions
         1000 => "$1000 - $1500",
         1500 => "$1500+"
       }[value] + " (#{count})"
-    end
-
-    def href
-      products_path(params.merge({ price_from: value, price_to: price_to}))
-    end
-
-    def price_to
-      value_index = Specification.range_params[:price].index value
-      if value_index == 0
-        nil
-      else
-        to_value = Specification.range_params[:price][value_index - 1] 
-        to_value.to_s
-      end
     end
   end
 
@@ -86,11 +88,7 @@ module SpecificationFilterOptions
     end
   end
 
-  class HddSizeFilterOption < SpecificationFilterOption
-    def is_active?
-      params[:hdd_size_from] == value.to_s && params[:hdd_size_to] == hdd_size_to
-    end
-
+  class HddSizeFilterOption < RangeFilterOption
     def text
       {
         0 => "127GB & Under" ,
@@ -100,20 +98,6 @@ module SpecificationFilterOptions
         1024 => "1TB to 1.49TB",
         1536 => "1.5TB & Above"
       }[value] + " (#{count})"
-    end
-
-    def href
-      products_path(params.merge({ hdd_size_from: value, hdd_size_to: hdd_size_to}))
-    end
-
-    def hdd_size_to
-      value_index = Specification.range_params[:hdd_size].index value
-      if value_index == 0
-        nil
-      else
-        to_value = Specification.range_params[:hdd_size][value_index - 1] 
-        to_value.to_s
-      end
     end
   end
 end
