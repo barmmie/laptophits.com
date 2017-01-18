@@ -11,6 +11,8 @@ class AttributesDistribution
       results = ProductFilter.new(scope.unscoped).filter_by(filter_params.except(*Specification.filter_params[attr]))
       [attr,AttributesDistribution.new(results, filter_params).public_send("#{attr}_distribution")]
     end.to_h
+
+
   end
 
   #default distributions 
@@ -28,7 +30,7 @@ class AttributesDistribution
     display_sizes = scope.all.map(&:display_size)
     no_display_size_count = display_sizes.select(&:nil?).length
 
-    display_sizes = display_sizes.reject!(&:nil?)
+    display_sizes.reject!(&:nil?)
 
     display_sizes.map(&:to_i).sort.reverse.group_by(&:itself).map{|k,v| [k,v.length]}.push([nil, no_display_size_count]).to_h
   end
@@ -37,6 +39,6 @@ class AttributesDistribution
     initial_distribution = price_in_cents_distribution
     no_prices_count = initial_distribution.delete(nil)
 
-    initial_distribution.map{|price_range, count| [price_range/100, count]}.push([nil, no_prices_count]).to_h
+    initial_distribution.map{|price_range, count| [price_range/100, count]}.sort.push([nil, no_prices_count]).to_h
   end
 end

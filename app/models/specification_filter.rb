@@ -17,7 +17,7 @@ class SpecificationFilter
   end
 
   def header
-    content_tag(:h4, attribute_name)
+    content_tag(:h4, "#{attribute_name}".gsub('_', ' ').capitalize)
   end
 
   def content
@@ -39,7 +39,7 @@ class SpecificationFilter
   end
 
   def all_text
-    "All #{attribute_name.to_s.pluralize}"
+    "All #{attribute_name.to_s.gsub('_',' ').pluralize}"
   end
 
   def all_href
