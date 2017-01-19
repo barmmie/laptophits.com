@@ -37,7 +37,7 @@ class Specification
   end
 
   def self.technical_details
-    params - [:price]
+    params - [:price, :price_in_cents]
   end
 
   def self.params
