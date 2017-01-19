@@ -55,6 +55,19 @@ module SpecificationFilterOptions
     end
   end
 
+  class HddSizeFilterOption < RangeFilterOption
+    def text
+      {
+        0 => "127GB & Under" ,
+        128 => "128GB to 255GB",
+        256 => "256GB to 0.49TB",
+        512 => "0.5TB to 0.99TB",
+        1024 => "1TB to 1.49TB",
+        1536 => "1.5TB & Above"
+      }[value] + " (#{count})"
+    end
+  end
+
   class PriceFilterOption < RangeFilterOption 
     def text
       {
@@ -85,19 +98,6 @@ module SpecificationFilterOptions
 
     def href
       products_path(params.merge({ display_size_from: value, display_size_to: value + 1}))
-    end
-  end
-
-  class HddSizeFilterOption < RangeFilterOption
-    def text
-      {
-        0 => "127GB & Under" ,
-        128 => "128GB to 255GB",
-        256 => "256GB to 0.49TB",
-        512 => "0.5TB to 0.99TB",
-        1024 => "1TB to 1.49TB",
-        1536 => "1.5TB & Above"
-      }[value] + " (#{count})"
     end
   end
 end

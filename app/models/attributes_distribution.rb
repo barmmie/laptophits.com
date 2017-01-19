@@ -11,8 +11,6 @@ class AttributesDistribution
       results = ProductFilter.new(scope.unscoped).filter_by(filter_params.except(*Specification.filter_params[attr]))
       [attr,AttributesDistribution.new(results, filter_params).public_send("#{attr}_distribution")]
     end.to_h
-
-
   end
 
   #default distributions 

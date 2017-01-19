@@ -9,7 +9,7 @@ class Distribution
   def calculate
     distribution = ranges ? range_distribution : value_distribution
     nil_values = distribution.delete(nil)
-    distribution.sort.push([nil, nil_values]).to_h
+    nil_values ? distribution.sort.push([nil, nil_values]).to_h : distribution.sort.to_h
   end
 
   private
