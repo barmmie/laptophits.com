@@ -13,6 +13,7 @@ gem 'rest-client'
 group :development, :test do
   gem 'byebug'
   gem 'pry-byebug'
+  gem 'factory_girl_rails'
 end
 
 group :development do
@@ -23,6 +24,7 @@ end
 
 group :test do
   gem 'capybara'
+  gem 'launchy'
 end
 
 group :production do
