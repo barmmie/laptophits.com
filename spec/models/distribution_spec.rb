@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Distribution, type: :model do
   describe '#calculate' do
     context 'when value distribution' do
-      let(:values) { [nil,1,1,1,2,2,3,5,5] }
       it 'calculates value distribution' do
+        values = [nil,1,1,1,2,2,3,5,5]
         expect(Distribution.new(values).calculate).to eq ({1 => 3, 2 => 2, 3 => 1, nil => 1, 5 => 2})
       end
     end
