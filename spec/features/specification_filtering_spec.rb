@@ -86,6 +86,17 @@ RSpec.feature "Specification filtering", :type => :feature do
     expect(page).to_not have_text("1366x768 laptop")
   end
 
+  scenario 'User filters laptops by ram size' do
+    create(:product, title: '8GB laptop', ram_size: 8).comments << create(:comment)
+    create(:product, title: '16GB laptop', ram_size: 16).comments << create(:comment)
+
+    visit "/products"
+
+    click_link "8 GB"
+    expect(page).to have_text("8GB laptop")
+    expect(page).to_not have_text("16GB laptop")
+  end
+
   scenario 'User filters laptops by operating system' do
     create(:product, title: 'Chrome OS laptop', operating_system: 'Chrome OS').comments << create(:comment)
     create(:product, title: 'Windows 10 laptop', operating_system: 'Windows 10').comments << create(:comment)
@@ -154,5 +165,22 @@ RSpec.feature "Specification filtering", :type => :feature do
     expect(page).to have_text("14inch Windows Laptop")
     expect(page).to_not have_text("14inch Chrome OS Laptop")
     expect(page).to_not have_text("15inch Windows Laptop")
+  end
+
+  scenario 'User filters by time and specification attribute' do
+    create(:product, title: 'weekly Asus laptop', brand: 'Asus').comments << create(:comment, created_utc: Time.now - 2.days)
+    create(:product, title: 'weekly Dell laptop', brand: 'Dell').comments << create(:comment, created_utc: Time.now - 2.days)
+    create(:product, title: 'monthly laptop', brand: 'Asus').comments << create(:comment, created_utc: Time.now - 20.days)
+    create(:product, title: 'yearly laptop', brand: 'Dell').comments << create(:comment, created_utc: Time.now - 200.days)
+
+    visit "/products" 
+
+    click_link "Past week"
+    click_link "Asus ("
+    
+    expect(page).to have_text("weekly Asus laptop")
+    expect(page).to_not have_text("weekly Dell laptop")
+    expect(page).to_not have_text("monthly laptop")
+    expect(page).to_not have_text("yearly laptop")
   end
 end

@@ -59,6 +59,6 @@ class Specification
       else
         [attr, [attr]]
       end
-    end.to_h
+    end.to_h.merge(after: [:after])
   end
 end
