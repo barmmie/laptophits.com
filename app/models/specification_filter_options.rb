@@ -83,7 +83,12 @@ module SpecificationFilterOptions
 
   class RamSizeFilterOption < SpecificationFilterOption
     def text
-      "#{value} GB (#{count})"
+      if value < 1 
+        "#{(value * 1024).to_i} MB (#{count})"
+      else
+        "#{value.to_i} GB (#{count})"
+      end
+
     end
 
     def is_active?

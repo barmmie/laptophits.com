@@ -13,17 +13,6 @@ class AttributesDistribution
     end.to_h
   end
 
-  #default distributions 
- 
-  Specification.params.each do |param|
-    define_method "#{param}_distribution".to_sym do
-      values = scope.all.map{|product| product.public_send(param)}
-      Distribution.new(values, Specification.range_params[param]).calculate
-    end
-  end
-
-  #custom distributions
-
   def display_size_distribution
     display_sizes = scope.all.map(&:display_size)
     no_display_size_count = display_sizes.select(&:nil?).length
@@ -39,4 +28,23 @@ class AttributesDistribution
 
     initial_distribution.map{|price_range, count| [price_range/100, count]}.sort.push([nil, no_prices_count]).to_h
   end
+
+  def ram_size_distribution
+    ram_distr = default_distribution(:ram_size)
+    nil_distr = ram_distr.slice(nil)
+    ram_distr.except(nil).sort.reverse.to_h.merge(nil_distr)
+  end
+
+  def default_distribution(param)
+    values = scope.all.map{|product| product.public_send(param)}
+    Distribution.new(values, Specification.range_params[param]).calculate
+  end
+
+  def method_missing(m, *args, &block)  
+    if m.to_s =~ /^(\w+)_distribution$/
+      default_distribution($1.to_sym)
+    else
+      super
+    end
+  end  
 end

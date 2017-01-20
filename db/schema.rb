@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117152137) do
+ActiveRecord::Schema.define(version: 20170120133614) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20170117152137) do
     t.datetime "updated_at",         null: false
     t.string   "brand"
     t.jsonb    "amazon_api_data"
-    t.integer  "ram_size"
+    t.float    "ram_size"
     t.string   "display_resolution"
     t.jsonb    "amazon_www_data"
     t.string   "operating_system"
