@@ -33,7 +33,7 @@ class Specification
   end
 
   def self.nil_name(param)
-    NIL_NAMES[param] || 'Unknown'
+    NIL_NAMES[param]
   end
 
   def self.technical_details

@@ -60,6 +60,16 @@ RSpec.feature "Specification filtering", :type => :feature do
     expect(page).to_not have_text("Dell laptop")
   end
 
+  scenario 'User checking Other brand laptops' do
+    create(:product, title: 'Other laptop', brand: nil).comments << create(:comment)
+
+    visit "/products"
+
+    expect(page).to have_text('Other laptop')
+    click_link 'Other ('
+    expect(page).to have_text('Other laptop')
+  end
+
   scenario 'User filters laptops by display size' do
     create(:product, title: '15inches laptop', display_size: 15.3).comments << create(:comment)
     create(:product, title: '10inches laptop', display_size: 10.0).comments << create(:comment)

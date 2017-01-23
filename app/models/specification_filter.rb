@@ -21,7 +21,7 @@ class SpecificationFilter
   end
 
   def content
-    content_tag(:ul, [all_option, options].join.html_safe)
+    content_tag(:ul, [all_option, options, nil_option].join.html_safe)
   end
 
   def options
@@ -44,6 +44,22 @@ class SpecificationFilter
 
   def all_href
     products_path(filter_params.merge( Specification.filter_params[attribute_name].map{|filter_param| [filter_param,nil]}.to_h))
+  end
+
+  def nil_option
+    link_to_unless(nil_active?, nil_text, nil_href) if Specification.nil_name(attribute_name) && distribution[nil]
+  end
+
+  def nil_active?
+    params[attribute_name] == Specification.nil_name(attribute_name)
+  end
+
+  def nil_text
+    "#{Specification.nil_name(attribute_name)} (#{distribution[nil]})"
+  end
+
+  def nil_href
+    products_path(filter_params.merge( attribute_name => Specification.nil_name(attribute_name)))
   end
 
   def filter_option_class
