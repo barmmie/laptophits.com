@@ -47,19 +47,10 @@ class SpecificationFilter
   end
 
   def nil_option
-    link_to_unless(nil_active?, nil_text, nil_href) if Specification.nil_name(attribute_name) && distribution[nil]
-  end
-
-  def nil_active?
-    params[attribute_name] == Specification.nil_name(attribute_name)
-  end
-
-  def nil_text
-    "#{Specification.nil_name(attribute_name)} (#{distribution[nil]})"
-  end
-
-  def nil_href
-    products_path(filter_params.merge( attribute_name => Specification.nil_name(attribute_name)))
+    SpecificationFilterOptions::SpecificationFilterOption.new(
+      attribute_name, filter_params,
+      Specification.nil_name(attribute_name),
+      distribution[nil]).html if Specification.nil_name(attribute_name) && distribution[nil]
   end
 
   def filter_option_class
