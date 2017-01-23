@@ -7,7 +7,7 @@ class RamSizeExtractor
   end
 
   def extract
-    extract_from_amazon_www_data || extract_from_amazon_api_data
+    extract_from_amazon_api_data || extract_from_amazon_www_data
   end
 
   private
