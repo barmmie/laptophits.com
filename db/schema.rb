@@ -67,21 +67,11 @@ ActiveRecord::Schema.define(version: 20170124130219) do
     t.string   "processor"
     t.integer  "hdd_size"
     t.string   "hdd_type"
-    t.datetime "price_updated_at",           default: '2017-01-24 13:01:39'
+    t.datetime "price_updated_at",           default: '2017-01-24 13:17:01'
     t.float    "display_size"
-    t.datetime "amazon_api_data_updated_at", default: '2017-01-24 13:01:39'
-    t.datetime "amazon_www_data_updated_at", default: '2017-01-24 13:01:39'
+    t.datetime "amazon_www_data_updated_at", default: '2017-01-24 13:17:01'
+    t.datetime "amazon_api_data_updated_at", default: '2017-01-24 13:17:01'
   end
-
-  create_table "specifications", force: :cascade do |t|
-    t.string   "brand"
-    t.float    "display_size"
-    t.integer  "product_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
-  end
-
-  add_index "specifications", ["product_id"], name: "index_specifications_on_product_id", using: :btree
 
   add_foreign_key "mentions", "comments"
   add_foreign_key "mentions", "products"
