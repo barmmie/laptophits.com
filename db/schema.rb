@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170124130219) do
+ActiveRecord::Schema.define(version: 20170124133505) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,10 +67,10 @@ ActiveRecord::Schema.define(version: 20170124130219) do
     t.string   "processor"
     t.integer  "hdd_size"
     t.string   "hdd_type"
-    t.datetime "price_updated_at",           default: '2017-01-24 13:17:01'
+    t.datetime "price_updated_at",           default: '2017-02-17 14:10:44'
     t.float    "display_size"
-    t.datetime "amazon_www_data_updated_at", default: '2017-01-24 13:17:01'
-    t.datetime "amazon_api_data_updated_at", default: '2017-01-24 13:17:01'
+    t.datetime "amazon_www_data_updated_at", default: '2017-02-17 14:10:44'
+    t.datetime "amazon_api_data_updated_at", default: '2017-02-17 14:10:44'
   end
 
   add_foreign_key "mentions", "comments"
