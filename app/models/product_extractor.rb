@@ -8,7 +8,7 @@ class ProductExtractor
   def get_products(product_types = nil)
     products = extract_asins.map do |asin|
       begin 
-        sleep(1)
+        sleep(2)
         item = Amazon::Ecs.item_lookup(asin, response_group: :Large)
         raise Amazon::RequestError, item.error if item.has_error?
 

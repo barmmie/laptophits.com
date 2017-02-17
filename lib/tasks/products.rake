@@ -24,4 +24,32 @@ namespace :products do
       puts "#{product.id}: #{product.amazon_www_data}"
     end
   end
+
+  desc "Extract products from comments"
+  task extract: :environment do
+    Comment.without_products.each do |comment|
+      products = ProductExtractor.new(comment.body).get_products(['NOTEBOOK_COMPUTER'])
+      if products.empty?
+        print "."
+        comment.destroy
+      else
+        puts products
+        comment.products = products.map do |product|
+          mentioned_product = Product.find_or_create_by(asin: product[:asin]) do |p|
+            p.title = product[:title]
+            p.offer_url = "https://www.amazon.com/dp/#{product[:asin]}"#/?tag=#{ENV['AMAZON_ASSOC_TAG']}"
+            if product[:price]
+              p.price_in_cents = product[:price].to_i
+              p.price_updated_at = Time.now
+            end
+
+            p.amazon_api_data = product
+            p.amazon_www_data = AmazonScraper.new(p.offer_url).technical_details
+          end
+          mentioned_product.update_spec
+          mentioned_product
+        end
+      end
+    end
+  end
 end
