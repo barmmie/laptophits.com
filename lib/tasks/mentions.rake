@@ -13,7 +13,7 @@ namespace :mentions do
         comment['comment_id'] = comment.delete 'id'
         comment['created_utc'] = Time.at(comment['created_utc']).to_datetime
 
-        Comment.create(comment.slice(RedditComments.attributes)).products = products.map do |product|
+        Comment.create_from_reddit(comment).products = products.map do |product|
           mentioned_product = Product.find_or_create_by(asin: product[:asin]) do |p|
             p.title = product[:title]
             p.offer_url = "https://www.amazon.com/dp/#{product[:asin]}"#/?tag=#{ENV['AMAZON_ASSOC_TAG']}"
