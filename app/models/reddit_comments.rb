@@ -1,10 +1,15 @@
 class RedditComments
   def self.latest
     after = 12.hours.ago.to_i
-    after = Comment.order('created_utc DESC').first.created_utc.to_i if Comment.first
 
-    response = Net::HTTP.get(
-      URI("https://api.pushshift.io/reddit/search/comment?q=%22amazon.com%22&after=#{after}&limit=500"))
+    if Comment.first
+      after = Comment.order('created_utc DESC').first.created_utc.to_i
+      url = "https://api.pushshift.io/reddit/search/comment?q=%22amazon.com%22&after=#{after}&limit=500"
+    else
+      url = "https://api.pushshift.io/reddit/search/comment?q=%22amazon.com%22&limit=500"
+    end
+
+    response = Net::HTTP.get(URI(url))
 
     data = JSON.parse(response)['data']
   end

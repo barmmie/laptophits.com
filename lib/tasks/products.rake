@@ -42,14 +42,29 @@ namespace :products do
               p.price_in_cents = product[:price].to_i
               p.price_updated_at = Time.now
             end
-
             p.amazon_api_data = product
             p.amazon_www_data = AmazonScraper.new(p.offer_url).technical_details
           end
+
+          mentioned_product.specification_feeds.create([
+            { source: 'amazon_www', uin: mentioned_product.asin, data: mentioned_product.amazon_www_data },
+            { source: 'amazon_api', uin: mentioned_product.asin, data: product }
+          ])
+
           mentioned_product.update_spec
           mentioned_product
         end
       end
+    end
+  end
+
+  desc "Populate specification feeds"
+  task populate_feeds: :environment do
+    Product.all.each do |product|
+      product.specification_feeds.create([
+        { source: 'amazon_www', uin: product.asin, data: product.amazon_www_data },
+        { source: 'amazon_api', uin: product.asin, data: product.amazon_api_data }
+      ])
     end
   end
 end
