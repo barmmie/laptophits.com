@@ -1,6 +1,7 @@
 class Product < ActiveRecord::Base
   has_many :mentions, dependent: :destroy
   has_many :comments, through: :mentions
+  has_many :specification_feeds
 
   def update_spec
     update_attributes( Specification.new({ 

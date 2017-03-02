@@ -17,7 +17,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'rspec-rails', '~> 3.5'
   gem 'web-console', '~> 2.0'
   gem 'spring'
 end
@@ -25,6 +24,8 @@ end
 group :test do
   gem 'capybara'
   gem 'launchy'
+  gem 'rspec-rails', '~> 3.5'
+  gem 'shoulda-matchers', '~> 3.1'
 end
 
 group :production do

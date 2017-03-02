@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170124133505) do
+ActiveRecord::Schema.define(version: 20170302105320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,18 @@ ActiveRecord::Schema.define(version: 20170124133505) do
     t.datetime "amazon_api_data_updated_at", default: '2017-02-17 14:10:44'
   end
 
+  create_table "specification_feeds", force: :cascade do |t|
+    t.string   "source"
+    t.string   "uin"
+    t.jsonb    "data"
+    t.integer  "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "specification_feeds", ["product_id"], name: "index_specification_feeds_on_product_id", using: :btree
+
   add_foreign_key "mentions", "comments"
   add_foreign_key "mentions", "products"
+  add_foreign_key "specification_feeds", "products"
 end

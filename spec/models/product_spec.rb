@@ -1,6 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
+  describe 'Associations' do
+    it { expect(subject).to have_many(:specification_feeds) }
+  end
 
   describe '#update_amazon_api_data' do
     it 'updates amazon api data' do
