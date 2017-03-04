@@ -8,20 +8,17 @@ namespace :products do
 
   desc "Update price and amazon api data"
   task update_prices: :environment do
-    Product.order('amazon_api_data_updated_at ASC').limit(50).each do |product|
-      old_price = product.price_in_cents
-      product.update_price
-      product.update_spec
-      puts "#{product.id}: #{old_price} -> #{product.price_in_cents}"
+    SpecificationFeed.where(source: 'amazon_api').order('updated_at ASC').limit(50).each do |feed|
+      feed.product.update_price
+      feed.product.update_spec
     end
   end
 
   desc "Update amazon www data"
   task update_amazon_www_data: :environment do
-    Product.order('amazon_www_data_updated_at ASC').limit(50).each do |product|
-      product.update_amazon_www_data
-      product.update_spec
-      puts "#{product.id}: #{product.amazon_www_data}"
+    SpecificationFeed.where(source: 'amazon_www').order('updated_at ASC').limit(50).each do |feed|
+      feed.refresh
+      feed.product.update_spec
     end
   end
 
@@ -42,12 +39,11 @@ namespace :products do
               p.price_in_cents = product[:price].to_i
               p.price_updated_at = Time.now
             end
-            p.amazon_api_data = product
-            p.amazon_www_data = AmazonScraper.new(p.offer_url).technical_details
           end
+          
 
           mentioned_product.specification_feeds.create([
-            { source: 'amazon_www', uin: mentioned_product.asin, data: mentioned_product.amazon_www_data },
+            { source: 'amazon_www', uin: mentioned_product.asin, data: AmazonScraper.new(mentioned_product.offer_url).technical_details },
             { source: 'amazon_api', uin: mentioned_product.asin, data: product }
           ])
 

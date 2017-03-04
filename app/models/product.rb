@@ -4,32 +4,14 @@ class Product < ActiveRecord::Base
   has_many :specification_feeds
 
   def update_spec
-    update_attributes( Specification.new({ 
-      amazon_api_data: amazon_api_data,
-      amazon_www_data: amazon_www_data }).extract )
+    feeds_data = self.specification_feeds.map{|feed| ["#{feed.source}_data".to_sym, feed.data] }.to_h
+    update_attributes( Specification.new(feeds_data).extract )
   end
 
   def update_price
-    update_amazon_api_data
-    if amazon_api_data['price'].present?
-      self.price_in_cents = amazon_api_data['price']
-      self.price_updated_at = amazon_api_data_updated_at
-      save
-    end
-  end
-
-  def update_amazon_api_data
-    amazon_api_data = ProductExtractor.new(offer_url).get_products.first
-    self.amazon_api_data_updated_at = Time.now
-    amazon_api_data.present? && self.amazon_api_data = amazon_api_data
-    save
-  end
-
-  def update_amazon_www_data
-    amazon_www_data = AmazonScraper.new(offer_url).technical_details
-    self.amazon_www_data_updated_at = Time.now
-    amazon_www_data.present? && self.amazon_www_data = amazon_www_data
-    save
+    amazon_api_feed = specification_feeds.where(source: 'amazon_api').first
+    amazon_api_feed.refresh
+    update_attributes(price_in_cents: amazon_api_feed['data']['price'], price_updated_at: amazon_api_feed.updated_at) if amazon_api_feed['data']['price'].present?
   end
 
   def to_param
